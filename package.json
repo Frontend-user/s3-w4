@@ -7,7 +7,7 @@
     "dev": "yarn nodemon --inspect dist/index.js",
     "watch": "tsc -w",
     "test": "jest --detectOpenHandles  --forceExit --config  __tests__/jest-e2e.config.js",
-    "deploy": "git add . && git commit -m 'deploy' && git push origin master"
+    "deploy": "git add . && git commit -m 'deploy' && git push -u origin master"
   },
   "dependencies": {
     "@types/express-rate-limit": "^6.0.0",
