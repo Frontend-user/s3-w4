@@ -2,8 +2,9 @@ import {ObjectId} from "mongodb";
 import { UserEmailEntityType,  UserInputModelType} from "../types/user-types";
 import {JwtService} from "../../application/jwt-service";
 import {UsersRepositories} from "../repository/users-repository";
+import {injectable} from "inversify";
 
-
+@injectable()
 export class UsersService {
     constructor(
         protected jwtService:JwtService,

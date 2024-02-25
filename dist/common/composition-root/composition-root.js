@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.securityDevicesController = exports.usersController = exports.usersService = exports.authController = exports.authService = exports.securityService = exports.authRepositories = exports.nodemailerService = exports.securityRepositories = exports.querySecurityRepositories = exports.usersRepositories = exports.commentsController = exports.blogsController = exports.postsController = exports.commentsService = exports.commentQueryRepository = exports.jwtService = exports.usersQueryRepository = exports.commentsRepository = exports.postsService = exports.postsRepositories = exports.blogsService = exports.blogsQueryRepository = exports.blogsRepositories = exports.postsQueryRepository = void 0;
+exports.container = exports.securityDevicesController = exports.authController = exports.authService = exports.securityService = exports.authRepositories = exports.nodemailerService = exports.securityRepositories = exports.querySecurityRepositories = exports.usersRepositories = exports.commentsController = exports.blogsController = exports.postsController = exports.commentsService = exports.commentQueryRepository = exports.jwtService = exports.usersQueryRepository = exports.commentsRepository = exports.postsService = exports.postsRepositories = exports.blogsService = exports.blogsQueryRepository = exports.blogsRepositories = exports.postsQueryRepository = void 0;
+require("reflect-metadata");
 const blogs_repositories_1 = require("../../blogs/repository/blogs-repositories");
 const blogs_service_1 = require("../../blogs/domain/blogs-service");
 const blogs_controller_1 = require("../../blogs/router/blogs-controller");
@@ -26,6 +27,7 @@ const nodemailer_service_1 = require("../../application/nodemailer-service");
 const users_controller_1 = require("../../users/router/users-controller");
 const users_service_1 = require("../../users/domain/users-service");
 const security_controller_1 = require("../../security/router/security-controller");
+const inversify_1 = require("inversify");
 exports.postsQueryRepository = new posts_query_repository_1.PostsQueryRepository();
 exports.blogsRepositories = new blogs_repositories_1.BlogsRepositories();
 exports.blogsQueryRepository = new blogs_query_repository_1.BlogsQueryRepository();
@@ -49,7 +51,11 @@ exports.authRepositories = new auth_repository_1.AuthRepositories(exports.nodema
 exports.securityService = new security_service_1.SecurityService(exports.securityRepositories);
 exports.authService = new auth_service_1.AuthService(exports.authRepositories, exports.jwtService, exports.usersRepositories, exports.nodemailerService);
 exports.authController = new auth_controller_1.AuthController(exports.authService, exports.usersQueryRepository, exports.jwtService, exports.querySecurityRepositories, exports.securityRepositories, exports.authRepositories, exports.securityService);
-exports.usersService = new users_service_1.UsersService(exports.jwtService, exports.usersRepositories);
-exports.usersController = new users_controller_1.UsersController(exports.usersService, exports.usersQueryRepository);
+// export const usersService = new UsersService(jwtService, usersRepositories)
+// export const usersController = new UsersController(usersService, usersQueryRepository)
 exports.securityDevicesController = new security_controller_1.SecurityDevicesController(exports.securityRepositories, exports.querySecurityRepositories, exports.jwtService);
+exports.container = new inversify_1.Container();
+exports.container.bind(users_controller_1.UsersController).to(users_controller_1.UsersController);
+exports.container.bind(users_service_1.UsersService).to(users_service_1.UsersService);
+exports.container.bind(users_query_repository_1.UsersQueryRepository).to(users_query_repository_1.UsersQueryRepository);
 //# sourceMappingURL=composition-root.js.map

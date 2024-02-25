@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import {BlogsRepositories} from "../../blogs/repository/blogs-repositories";
 import {BlogsService} from "../../blogs/domain/blogs-service";
 import {BlogsControllerConstructor} from "../../blogs/router/blogs-controller";
@@ -23,6 +24,7 @@ import {NodemailerService} from "../../application/nodemailer-service";
 import {UsersController} from "../../users/router/users-controller";
 import {UsersService} from "../../users/domain/users-service";
 import {SecurityDevicesController} from "../../security/router/security-controller";
+import {Container} from "inversify";
 
 export const postsQueryRepository = new PostsQueryRepository()
 export const blogsRepositories = new BlogsRepositories()
@@ -51,7 +53,13 @@ export const authController = new AuthController(authService, usersQueryReposito
     jwtService,querySecurityRepositories, securityRepositories,authRepositories,
     securityService)
 
-export const usersService = new UsersService(jwtService, usersRepositories)
-export const usersController = new UsersController(usersService, usersQueryRepository,)
+// export const usersService = new UsersService(jwtService, usersRepositories)
+// export const usersController = new UsersController(usersService, usersQueryRepository)
 export const securityDevicesController =
     new SecurityDevicesController(securityRepositories, querySecurityRepositories,jwtService)
+
+
+export const container = new Container();
+container.bind<UsersController>(UsersController).to(UsersController);
+container.bind<UsersService>(UsersService).to(UsersService);
+container.bind<UsersQueryRepository>(UsersQueryRepository).to(UsersQueryRepository);

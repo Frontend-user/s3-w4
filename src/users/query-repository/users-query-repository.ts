@@ -4,6 +4,9 @@ import {UserEmailEntityType, UserViewType} from "../types/user-types";
 import {ObjectId, SortDirection} from "mongodb";
 import { TypeQuerySortBlog} from "../../blogs/blogs-query/types/query-types";
 import {Pagination} from "../../common/types/pagination";
+import {injectable} from "inversify";
+
+@injectable()
 export class UsersQueryRepository {
     async getUsers(searchLoginTerm?: string, searchEmailTerm?: string, sortBy?: string, sortDirection?: string, pageNumber?: number, pageSize?: number): Promise<Pagination<UserViewType[]>> {
         const findQuery = this.__getUsersFindings(searchLoginTerm, searchEmailTerm)

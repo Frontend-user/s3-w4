@@ -1,4 +1,10 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,7 +18,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersQueryRepository = void 0;
 const blogs_paginate_1 = require("../../blogs/blogs-query/utils/blogs-paginate");
 const db_1 = require("../../db");
-class UsersQueryRepository {
+const inversify_1 = require("inversify");
+let UsersQueryRepository = class UsersQueryRepository {
     getUsers(searchLoginTerm, searchEmailTerm, sortBy, sortDirection, pageNumber, pageSize) {
         return __awaiter(this, void 0, void 0, function* () {
             const findQuery = this.__getUsersFindings(searchLoginTerm, searchEmailTerm);
@@ -81,6 +88,9 @@ class UsersQueryRepository {
         }
         return sortQuery;
     }
-}
+};
 exports.UsersQueryRepository = UsersQueryRepository;
+exports.UsersQueryRepository = UsersQueryRepository = __decorate([
+    (0, inversify_1.injectable)()
+], UsersQueryRepository);
 //# sourceMappingURL=users-query-repository.js.map

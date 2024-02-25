@@ -8,7 +8,8 @@ import {
 import {blogIdValidation, inputValidationMiddleware} from "../../validation/blogs-validation";
 
 import {authorizationMiddleware} from "../../validation/auth-validation";
-import {usersController} from "../../common/composition-root/composition-root";
+import {container} from "../../common/composition-root/composition-root";
+import {UsersController} from "./users-controller";
 
 export const usersValidators = [
     authorizationMiddleware,
@@ -18,7 +19,7 @@ export const usersValidators = [
     inputValidationMiddleware,
 ]
 export const usersRouter = Router({})
-
+const usersController = container.resolve(UsersController)
 
 usersRouter.get('/',
     authorizationMiddleware,
