@@ -3,7 +3,9 @@ import {ObjectId} from "mongodb";
 import {HTTP_STATUSES} from "../../common/constants/http-statuses";
 import {CommentsService} from "../service/comments-service";
 import {CommentQueryRepository} from "../query-repository/comment-query-repository";
+import {injectable} from "inversify";
 
+@injectable()
 export class CommentsController {
     constructor(protected commentsService:CommentsService, protected commentQueryRepository: CommentQueryRepository) {
     }

@@ -25,8 +25,10 @@ import {
     refreshTokenValidator,
     tokenValidationMiddleware,
 } from "../validation/tokenValidator";
-import {authController} from "../../common/composition-root/composition-root";
+import {AuthController} from "./auth-controller";
+import {container} from "../../common/composition-root/composition-root";
 
+export const authController = container.resolve(AuthController)
 
 export const authRouter = Router({})
 

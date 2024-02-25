@@ -9,7 +9,9 @@ import {PostsService} from "../domain/posts-service";
 import {BlogsQueryRepository} from "../../blogs/blogs-query/blogs-query-repository";
 import {CommentsService} from "../../comments/service/comments-service";
 import {CommentQueryRepository} from "../../comments/query-repository/comment-query-repository";
+import {injectable} from "inversify";
 
+@injectable()
 export class PostsController {
     constructor(protected postsQueryRepository:PostsQueryRepository,
                 protected postsService:PostsService,

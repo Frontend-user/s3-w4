@@ -26,8 +26,6 @@ const users_query_repository_1 = require("../query-repository/users-query-reposi
 const users_service_1 = require("../domain/users-service");
 const inversify_1 = require("inversify");
 let UsersController = class UsersController {
-    // @inject(UsersService)
-    // @inject(UsersQueryRepository)
     constructor(usersService, usersQueryRepository) {
         this.usersService = usersService;
         this.usersQueryRepository = usersQueryRepository;

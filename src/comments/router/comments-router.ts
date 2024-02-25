@@ -6,10 +6,11 @@ import {
     commentIdExistValidation,
     commentInputValidationMiddleware, commentLikeStatusValidation, haveAccesForUpdate
 } from "../validation/comments-validation";
-import {commentsController} from "../../common/composition-root/composition-root";
+import {container} from "../../common/composition-root/composition-root";
+import {CommentsController} from "./comments-controller";
 
 export const commentsRouter = Router({})
-
+export const commentsController = container.resolve(CommentsController)
 
 commentsRouter.put('/:commentId', bearerAuthMiddleware, commentContentValidation, commentIdExistValidation, haveAccesForUpdate, commentInputValidationMiddleware,
     commentsController.updateComment.bind(commentsController))

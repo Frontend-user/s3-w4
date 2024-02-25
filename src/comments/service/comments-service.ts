@@ -2,7 +2,9 @@ import {CommentCreateType } from "../types/comment-type";
 import {currentUser} from "../../application/current-user";
 import {ObjectId} from "mongodb";
 import {CommentsRepository} from "../repository/comments-repository";
+import {injectable} from "inversify";
 
+@injectable()
 export class CommentsService {
     constructor(protected commentsRepository:CommentsRepository) {
     }

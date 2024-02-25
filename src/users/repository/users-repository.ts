@@ -2,7 +2,9 @@ import {UserEmailEntityType} from "../types/user-types";
 import {UserModel} from "../../db";
 import {ObjectId} from "mongodb";
 import {RecoveryCodeType} from "../../common/types/recovery-type";
+import {injectable} from "inversify";
 
+@injectable()
 export class UsersRepositories {
 
     async createUser(user: UserEmailEntityType): Promise<false | ObjectId> {

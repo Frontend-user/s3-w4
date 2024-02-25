@@ -4,7 +4,9 @@ import {v4 as uuidv4} from "uuid";
 import {ObjectId} from "mongodb";
 import {NodemailerService} from "../../application/nodemailer-service";
 import {RecoveryCodeType} from "../../common/types/recovery-type";
+import {injectable} from "inversify";
 
+@injectable()
 export class AuthRepositories {
     constructor(protected nodemailerService: NodemailerService) {
 

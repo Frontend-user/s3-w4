@@ -5,15 +5,12 @@ import {UserInputModelType, UserViewType} from "../types/user-types";
 import {ObjectId} from "mongodb";
 import {UsersQueryRepository} from "../query-repository/users-query-repository";
 import {UsersService} from "../domain/users-service";
-import {inject, injectable} from "inversify";
+import {injectable} from "inversify";
 
 @injectable()
 export class UsersController {
-    // @inject(UsersService)
-    // @inject(UsersQueryRepository)
-    constructor(
-        protected usersService: UsersService,
-        protected usersQueryRepository: UsersQueryRepository
+    constructor( protected usersService: UsersService,
+                protected usersQueryRepository: UsersQueryRepository
     ) {
     }
 

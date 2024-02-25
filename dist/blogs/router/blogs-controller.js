@@ -1,4 +1,13 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,9 +21,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlogsControllerConstructor = exports.blogs = void 0;
 const http_statuses_1 = require("../../common/constants/http-statuses");
 const mongodb_1 = require("mongodb");
+const blogs_service_1 = require("../domain/blogs-service");
 const query_data_1 = require("../../common/custom-methods/query-data");
+const posts_service_1 = require("../../posts/domain/posts-service");
+const blogs_query_repository_1 = require("../blogs-query/blogs-query-repository");
+const posts_query_repository_1 = require("../../posts/posts-query/posts-query-repository");
+const inversify_1 = require("inversify");
 exports.blogs = [];
-class BlogsControllerConstructor {
+let BlogsControllerConstructor = class BlogsControllerConstructor {
     constructor(blogsService, blogsQueryRepository, postsQueryRepository, postsService) {
         this.blogsService = blogsService;
         this.blogsQueryRepository = blogsQueryRepository;
@@ -134,6 +148,13 @@ class BlogsControllerConstructor {
             }
         });
     }
-}
+};
 exports.BlogsControllerConstructor = BlogsControllerConstructor;
+exports.BlogsControllerConstructor = BlogsControllerConstructor = __decorate([
+    (0, inversify_1.injectable)(),
+    __metadata("design:paramtypes", [blogs_service_1.BlogsService,
+        blogs_query_repository_1.BlogsQueryRepository,
+        posts_query_repository_1.PostsQueryRepository,
+        posts_service_1.PostsService])
+], BlogsControllerConstructor);
 //# sourceMappingURL=blogs-controller.js.map

@@ -2,7 +2,9 @@ import {ObjectId} from "mongodb";
 import { BlogUpdateType} from "../../common/types/blog-type";
 import {BlogsRepositories} from "../repository/blogs-repositories";
 import {BlogClass } from "../blogs-classes";
+import {injectable} from "inversify";
 
+@injectable()
 export class BlogsService {
     constructor(protected blogsRepositories:BlogsRepositories) {
     }

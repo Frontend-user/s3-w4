@@ -3,7 +3,9 @@ import {HTTP_STATUSES} from "../../common/constants/http-statuses";
 import {SecurityRepositories} from "../repositories/security-repository";
 import {JwtService} from "../../application/jwt-service";
 import {QuerySecurityRepositories} from "../query-repository/query-security-repository";
+import {injectable} from "inversify";
 
+@injectable()
 export class SecurityDevicesController {
     constructor(
         protected securityRepositories:SecurityRepositories,

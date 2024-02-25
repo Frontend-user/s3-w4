@@ -1,9 +1,12 @@
+import {injectable} from "inversify";
 
 const bcrypt = require('bcrypt');
 import {ObjectId} from "mongodb";
 import {UsersQueryRepository} from "../users/query-repository/users-query-repository";
 
 const jwt = require('jsonwebtoken')
+
+@injectable()
 export class JwtService  {
     constructor(protected usersQueryRepository:UsersQueryRepository){}
     async createJWT(userId: any) {

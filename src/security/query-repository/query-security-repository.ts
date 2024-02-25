@@ -1,7 +1,9 @@
 import {deleteMongoUserId} from "../../common/custom-methods/change-id-format";
 import {DeviceModel} from "../../db";
 import {JwtService} from "../../application/jwt-service";
+import {injectable} from "inversify";
 
+@injectable()
 export class QuerySecurityRepositories  {
     constructor(protected jwtService:JwtService){}
     async getAllDevices(refreshToken: string) {

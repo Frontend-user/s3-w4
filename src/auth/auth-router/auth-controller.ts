@@ -11,7 +11,9 @@ import {QuerySecurityRepositories} from "../../security/query-repository/query-s
 import {SecurityRepositories} from "../../security/repositories/security-repository";
 import {AuthRepositories} from "../auth-repository/auth-repository";
 import {SecurityService} from "../../security/domain/security-service";
+import {injectable} from "inversify";
 
+@injectable()
 export class AuthController {
     constructor(protected authService:AuthService,
                 protected usersQueryRepository:UsersQueryRepository,

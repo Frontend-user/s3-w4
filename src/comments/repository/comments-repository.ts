@@ -4,7 +4,9 @@ import {ObjectId} from "mongodb";
 import {currentUser} from "../../application/current-user";
 import {usersIdsLikeStatuses} from "../../schemas/schemas";
 import {LIKE_STATUSES} from "../../common/constants/http-statuses";
+import {injectable} from "inversify";
 
+@injectable()
 export class CommentsRepository {
     async createComment(comment: CommentCreateType): Promise<false | ObjectId> {
         let response = await CommentModel.create(comment);

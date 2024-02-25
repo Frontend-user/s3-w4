@@ -1,8 +1,10 @@
 import {ObjectId} from "mongodb";
 import {PostCreateType, PostUpdateType} from "../../common/types/post-type";
 import {PostModel} from "../../db";
+import {injectable} from "inversify";
 
 
+@injectable()
 export class PostsRepositories {
     async createPost(post:PostCreateType): Promise<false | string> {
         const response = await PostModel.create(post)

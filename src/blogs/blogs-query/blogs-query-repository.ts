@@ -6,7 +6,9 @@ import {blogsFinding} from "./utils/blogs-finding";
 import {blogsPaginate} from "./utils/blogs-paginate";
 import {Pagination} from "../../common/types/pagination";
 import {changeIdFormat} from "../../common/custom-methods/change-id-format";
+import {injectable} from "inversify";
 
+@injectable()
 export class BlogsQueryRepository {
     async getBlogs(searchNameTerm?: string, sortBy?: string, sortDirection?: string, pageNumber?: number, pageSize?: number) {
         const findQuery = blogsFinding.getFindings(searchNameTerm)

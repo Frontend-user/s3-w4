@@ -4,7 +4,9 @@ import {blogsSorting} from "../../blogs/blogs-query/utils/blogs-sorting";
 import {blogsPaginate} from "../../blogs/blogs-query/utils/blogs-paginate";
 import {LIKE_STATUSES} from "../../common/constants/http-statuses";
 import {JwtService} from "../../application/jwt-service";
+import {injectable} from "inversify";
 
+@injectable()
 export class CommentQueryRepository {
     constructor(protected jwtService: JwtService) {
     }

@@ -5,7 +5,9 @@ import {blogsSorting} from "../../blogs/blogs-query/utils/blogs-sorting";
 import {blogsPaginate} from "../../blogs/blogs-query/utils/blogs-paginate";
 import {Pagination} from "../../common/types/pagination";
 import {changeIdFormat} from "../../common/custom-methods/change-id-format";
+import {injectable} from "inversify";
 
+@injectable()
 export class PostsQueryRepository {
     async getPosts(sortBy?: string, sortDirection?: string, pageNumber?: number, pageSize?: number): Promise<Pagination<PostViewType[]>> {
         const sortQuery = blogsSorting.getSorting(sortBy, sortDirection)

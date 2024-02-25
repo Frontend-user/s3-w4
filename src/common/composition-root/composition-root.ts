@@ -26,40 +26,72 @@ import {UsersService} from "../../users/domain/users-service";
 import {SecurityDevicesController} from "../../security/router/security-controller";
 import {Container} from "inversify";
 
-export const postsQueryRepository = new PostsQueryRepository()
-export const blogsRepositories = new BlogsRepositories()
-export const blogsQueryRepository = new BlogsQueryRepository()
-export const blogsService = new BlogsService(blogsRepositories)
-export const postsRepositories = new PostsRepositories()
-export const postsService = new PostsService(postsRepositories)
-export const commentsRepository = new CommentsRepository()
-export const usersQueryRepository = new UsersQueryRepository()
-export const jwtService = new JwtService(usersQueryRepository)
-export const commentQueryRepository = new CommentQueryRepository(jwtService)
-export const commentsService = new CommentsService(commentsRepository)
-export const postsController = new PostsController(postsQueryRepository, postsService, blogsQueryRepository,commentsService, commentQueryRepository)
-export const blogsController = new BlogsControllerConstructor(blogsService, blogsQueryRepository, postsQueryRepository, postsService)
-export const commentsController = new CommentsController(commentsService, commentQueryRepository)
-// constructor(protected authService:AuthService){}
-export const usersRepositories = new UsersRepositories()
-export const querySecurityRepositories = new QuerySecurityRepositories(jwtService)
-export const securityRepositories = new SecurityRepositories(jwtService)
-export const nodemailerService = new NodemailerService()
-export const authRepositories = new AuthRepositories(nodemailerService)
-export const securityService = new SecurityService(securityRepositories)
-export const authService = new AuthService(authRepositories,jwtService,usersRepositories, nodemailerService)
-
-export const authController = new AuthController(authService, usersQueryRepository,
-    jwtService,querySecurityRepositories, securityRepositories,authRepositories,
-    securityService)
+// export const postsQueryRepository = new PostsQueryRepository()
+// export const blogsRepositories = new BlogsRepositories()
+// export const blogsQueryRepository = new BlogsQueryRepository()
+// export const blogsService = new BlogsService(blogsRepositories)
+// export const postsRepositories = new PostsRepositories()
+// export const postsService = new PostsService(postsRepositories)
+// export const commentsRepository = new CommentsRepository()
+// export const usersQueryRepository = new UsersQueryRepository()
+// export const jwtService = new JwtService(usersQueryRepository)
+// export const commentQueryRepository = new CommentQueryRepository(jwtService)
+// export const commentsService = new CommentsService(commentsRepository)
+// export const postsController = new PostsController(postsQueryRepository, postsService, blogsQueryRepository,commentsService, commentQueryRepository)
+// export const blogsController = new BlogsControllerConstructor(blogsService, blogsQueryRepository, postsQueryRepository, postsService)
+// export const commentsController = new CommentsController(commentsService, commentQueryRepository)
+// // constructor(protected authService:AuthService){}
+// export const usersRepositories = new UsersRepositories()
+// export const querySecurityRepositories = new QuerySecurityRepositories(jwtService)
+// export const securityRepositories = new SecurityRepositories(jwtService)
+// export const nodemailerService = new NodemailerService()
+// export const authRepositories = new AuthRepositories(nodemailerService)
+// export const securityService = new SecurityService(securityRepositories)
+// export const authService = new AuthService(authRepositories,jwtService,usersRepositories, nodemailerService)
+//
+// export const authController = new AuthController(authService, usersQueryRepository,
+//     jwtService,querySecurityRepositories, securityRepositories,authRepositories,
+//     securityService)
 
 // export const usersService = new UsersService(jwtService, usersRepositories)
 // export const usersController = new UsersController(usersService, usersQueryRepository)
-export const securityDevicesController =
-    new SecurityDevicesController(securityRepositories, querySecurityRepositories,jwtService)
+// export const securityDevicesController =
+//     new SecurityDevicesController(securityRepositories, querySecurityRepositories,jwtService)
 
 
 export const container = new Container();
-container.bind<UsersController>(UsersController).to(UsersController);
+container.bind<PostsQueryRepository>(PostsQueryRepository).to(PostsQueryRepository);
+container.bind<BlogsRepositories>(BlogsRepositories).to(BlogsRepositories);
+container.bind<BlogsQueryRepository>(BlogsQueryRepository).to(BlogsQueryRepository);
+container.bind<BlogsService>(BlogsService).to(BlogsService);
+container.bind<PostsRepositories>(PostsRepositories).to(PostsRepositories);
+container.bind<PostsService>(PostsService).to(PostsService);
+container.bind<CommentsRepository>(CommentsRepository).to(CommentsRepository);
+container.bind<JwtService>(JwtService).to(JwtService);
+container.bind<CommentQueryRepository>(CommentQueryRepository).to(CommentQueryRepository);
+container.bind<CommentsService>(CommentsService).to(CommentsService);
+container.bind<UsersRepositories>(UsersRepositories).to(UsersRepositories);
+container.bind<QuerySecurityRepositories>(QuerySecurityRepositories).to(QuerySecurityRepositories);
+container.bind<SecurityRepositories>(SecurityRepositories).to(SecurityRepositories);
+container.bind<NodemailerService>(NodemailerService).to(NodemailerService);
+container.bind<AuthRepositories>(AuthRepositories).to(AuthRepositories);
+container.bind<SecurityService>(SecurityService).to(SecurityService);
+container.bind<AuthService>(AuthService).to(AuthService);
 container.bind<UsersService>(UsersService).to(UsersService);
 container.bind<UsersQueryRepository>(UsersQueryRepository).to(UsersQueryRepository);
+
+
+container.bind<UsersController>(UsersController).to(UsersController);
+container.bind<BlogsControllerConstructor>(BlogsControllerConstructor).to(BlogsControllerConstructor);
+container.bind<PostsController>(PostsController).to(PostsController);
+container.bind<AuthController>(AuthController).to(AuthController);
+container.bind<CommentsController>(CommentsController).to(CommentsController);
+container.bind<SecurityDevicesController>(SecurityDevicesController).to(SecurityDevicesController);
+
+export const jwtService = container.resolve(JwtService)
+export const authRepositories = container.resolve(AuthRepositories)
+export const postsQueryRepository = container.resolve(PostsQueryRepository)
+export const commentQueryRepository = container.resolve(CommentQueryRepository)
+export const usersQueryRepository = container.resolve(UsersQueryRepository)
+export const blogsQueryRepository = container.resolve(BlogsQueryRepository)
+

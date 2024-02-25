@@ -1,7 +1,9 @@
 import {ObjectId} from "mongodb";
 import {PostCreateType, PostUpdateType } from "../../common/types/post-type";
 import {PostsRepositories} from "../repositories/posts-repositories";
+import {injectable} from "inversify";
 
+@injectable()
 export class PostsService {
     constructor(protected postsRepositories:PostsRepositories) {
     }

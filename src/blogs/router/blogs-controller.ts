@@ -9,9 +9,11 @@ import {PostCreateType, PostViewType} from "../../common/types/post-type";
 import {PostsService} from "../../posts/domain/posts-service";
 import {BlogsQueryRepository} from "../blogs-query/blogs-query-repository";
 import {PostsQueryRepository} from "../../posts/posts-query/posts-query-repository";
+import {injectable} from "inversify";
 
 export const blogs: BlogViewType[] = []
 
+@injectable()
 export class BlogsControllerConstructor {
     constructor(protected blogsService: BlogsService,
                 protected blogsQueryRepository: BlogsQueryRepository,

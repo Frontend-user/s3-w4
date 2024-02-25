@@ -18,7 +18,8 @@ import {
     commentPostIdExistValidation
 } from "../../comments/validation/comments-validation";
 import {PostsController} from "./posts-controller";
-import {postsController} from "../../common/composition-root/composition-root";
+import {container} from "../../common/composition-root/composition-root";
+export const postsController = container.resolve(PostsController)
 
 export const postValidators = [
     bearerAndAdminAuthMiddleware,

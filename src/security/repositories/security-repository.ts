@@ -1,6 +1,8 @@
 import {DeviceModel} from "../../db";
 import {JwtService} from "../../application/jwt-service";
+import {injectable} from "inversify";
 
+@injectable()
 export class SecurityRepositories {
     constructor(protected jwtService:JwtService){}
     async createDevice(device: any) {

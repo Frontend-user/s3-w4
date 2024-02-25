@@ -1,8 +1,10 @@
 import {Router} from "express";
 import {refreshTokenValidator, tokenValidationMiddleware} from "../../auth/validation/tokenValidator";
-import {securityDevicesController} from "../../common/composition-root/composition-root";
+import {container} from "../../common/composition-root/composition-root";
+import {SecurityDevicesController} from "./security-controller";
 
 export const securityRouter = Router({})
+export const securityDevicesController = container.resolve(SecurityDevicesController)
 
 
 securityRouter.get('/',

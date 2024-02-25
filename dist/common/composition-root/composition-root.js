@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.container = exports.securityDevicesController = exports.authController = exports.authService = exports.securityService = exports.authRepositories = exports.nodemailerService = exports.securityRepositories = exports.querySecurityRepositories = exports.usersRepositories = exports.commentsController = exports.blogsController = exports.postsController = exports.commentsService = exports.commentQueryRepository = exports.jwtService = exports.usersQueryRepository = exports.commentsRepository = exports.postsService = exports.postsRepositories = exports.blogsService = exports.blogsQueryRepository = exports.blogsRepositories = exports.postsQueryRepository = void 0;
+exports.blogsQueryRepository = exports.usersQueryRepository = exports.commentQueryRepository = exports.postsQueryRepository = exports.authRepositories = exports.jwtService = exports.container = void 0;
 require("reflect-metadata");
 const blogs_repositories_1 = require("../../blogs/repository/blogs-repositories");
 const blogs_service_1 = require("../../blogs/domain/blogs-service");
@@ -28,34 +28,66 @@ const users_controller_1 = require("../../users/router/users-controller");
 const users_service_1 = require("../../users/domain/users-service");
 const security_controller_1 = require("../../security/router/security-controller");
 const inversify_1 = require("inversify");
-exports.postsQueryRepository = new posts_query_repository_1.PostsQueryRepository();
-exports.blogsRepositories = new blogs_repositories_1.BlogsRepositories();
-exports.blogsQueryRepository = new blogs_query_repository_1.BlogsQueryRepository();
-exports.blogsService = new blogs_service_1.BlogsService(exports.blogsRepositories);
-exports.postsRepositories = new posts_repositories_1.PostsRepositories();
-exports.postsService = new posts_service_1.PostsService(exports.postsRepositories);
-exports.commentsRepository = new comments_repository_1.CommentsRepository();
-exports.usersQueryRepository = new users_query_repository_1.UsersQueryRepository();
-exports.jwtService = new jwt_service_1.JwtService(exports.usersQueryRepository);
-exports.commentQueryRepository = new comment_query_repository_1.CommentQueryRepository(exports.jwtService);
-exports.commentsService = new comments_service_1.CommentsService(exports.commentsRepository);
-exports.postsController = new posts_controller_1.PostsController(exports.postsQueryRepository, exports.postsService, exports.blogsQueryRepository, exports.commentsService, exports.commentQueryRepository);
-exports.blogsController = new blogs_controller_1.BlogsControllerConstructor(exports.blogsService, exports.blogsQueryRepository, exports.postsQueryRepository, exports.postsService);
-exports.commentsController = new comments_controller_1.CommentsController(exports.commentsService, exports.commentQueryRepository);
-// constructor(protected authService:AuthService){}
-exports.usersRepositories = new users_repository_1.UsersRepositories();
-exports.querySecurityRepositories = new query_security_repository_1.QuerySecurityRepositories(exports.jwtService);
-exports.securityRepositories = new security_repository_1.SecurityRepositories(exports.jwtService);
-exports.nodemailerService = new nodemailer_service_1.NodemailerService();
-exports.authRepositories = new auth_repository_1.AuthRepositories(exports.nodemailerService);
-exports.securityService = new security_service_1.SecurityService(exports.securityRepositories);
-exports.authService = new auth_service_1.AuthService(exports.authRepositories, exports.jwtService, exports.usersRepositories, exports.nodemailerService);
-exports.authController = new auth_controller_1.AuthController(exports.authService, exports.usersQueryRepository, exports.jwtService, exports.querySecurityRepositories, exports.securityRepositories, exports.authRepositories, exports.securityService);
+// export const postsQueryRepository = new PostsQueryRepository()
+// export const blogsRepositories = new BlogsRepositories()
+// export const blogsQueryRepository = new BlogsQueryRepository()
+// export const blogsService = new BlogsService(blogsRepositories)
+// export const postsRepositories = new PostsRepositories()
+// export const postsService = new PostsService(postsRepositories)
+// export const commentsRepository = new CommentsRepository()
+// export const usersQueryRepository = new UsersQueryRepository()
+// export const jwtService = new JwtService(usersQueryRepository)
+// export const commentQueryRepository = new CommentQueryRepository(jwtService)
+// export const commentsService = new CommentsService(commentsRepository)
+// export const postsController = new PostsController(postsQueryRepository, postsService, blogsQueryRepository,commentsService, commentQueryRepository)
+// export const blogsController = new BlogsControllerConstructor(blogsService, blogsQueryRepository, postsQueryRepository, postsService)
+// export const commentsController = new CommentsController(commentsService, commentQueryRepository)
+// // constructor(protected authService:AuthService){}
+// export const usersRepositories = new UsersRepositories()
+// export const querySecurityRepositories = new QuerySecurityRepositories(jwtService)
+// export const securityRepositories = new SecurityRepositories(jwtService)
+// export const nodemailerService = new NodemailerService()
+// export const authRepositories = new AuthRepositories(nodemailerService)
+// export const securityService = new SecurityService(securityRepositories)
+// export const authService = new AuthService(authRepositories,jwtService,usersRepositories, nodemailerService)
+//
+// export const authController = new AuthController(authService, usersQueryRepository,
+//     jwtService,querySecurityRepositories, securityRepositories,authRepositories,
+//     securityService)
 // export const usersService = new UsersService(jwtService, usersRepositories)
 // export const usersController = new UsersController(usersService, usersQueryRepository)
-exports.securityDevicesController = new security_controller_1.SecurityDevicesController(exports.securityRepositories, exports.querySecurityRepositories, exports.jwtService);
+// export const securityDevicesController =
+//     new SecurityDevicesController(securityRepositories, querySecurityRepositories,jwtService)
 exports.container = new inversify_1.Container();
-exports.container.bind(users_controller_1.UsersController).to(users_controller_1.UsersController);
+exports.container.bind(posts_query_repository_1.PostsQueryRepository).to(posts_query_repository_1.PostsQueryRepository);
+exports.container.bind(blogs_repositories_1.BlogsRepositories).to(blogs_repositories_1.BlogsRepositories);
+exports.container.bind(blogs_query_repository_1.BlogsQueryRepository).to(blogs_query_repository_1.BlogsQueryRepository);
+exports.container.bind(blogs_service_1.BlogsService).to(blogs_service_1.BlogsService);
+exports.container.bind(posts_repositories_1.PostsRepositories).to(posts_repositories_1.PostsRepositories);
+exports.container.bind(posts_service_1.PostsService).to(posts_service_1.PostsService);
+exports.container.bind(comments_repository_1.CommentsRepository).to(comments_repository_1.CommentsRepository);
+exports.container.bind(jwt_service_1.JwtService).to(jwt_service_1.JwtService);
+exports.container.bind(comment_query_repository_1.CommentQueryRepository).to(comment_query_repository_1.CommentQueryRepository);
+exports.container.bind(comments_service_1.CommentsService).to(comments_service_1.CommentsService);
+exports.container.bind(users_repository_1.UsersRepositories).to(users_repository_1.UsersRepositories);
+exports.container.bind(query_security_repository_1.QuerySecurityRepositories).to(query_security_repository_1.QuerySecurityRepositories);
+exports.container.bind(security_repository_1.SecurityRepositories).to(security_repository_1.SecurityRepositories);
+exports.container.bind(nodemailer_service_1.NodemailerService).to(nodemailer_service_1.NodemailerService);
+exports.container.bind(auth_repository_1.AuthRepositories).to(auth_repository_1.AuthRepositories);
+exports.container.bind(security_service_1.SecurityService).to(security_service_1.SecurityService);
+exports.container.bind(auth_service_1.AuthService).to(auth_service_1.AuthService);
 exports.container.bind(users_service_1.UsersService).to(users_service_1.UsersService);
 exports.container.bind(users_query_repository_1.UsersQueryRepository).to(users_query_repository_1.UsersQueryRepository);
+exports.container.bind(users_controller_1.UsersController).to(users_controller_1.UsersController);
+exports.container.bind(blogs_controller_1.BlogsControllerConstructor).to(blogs_controller_1.BlogsControllerConstructor);
+exports.container.bind(posts_controller_1.PostsController).to(posts_controller_1.PostsController);
+exports.container.bind(auth_controller_1.AuthController).to(auth_controller_1.AuthController);
+exports.container.bind(comments_controller_1.CommentsController).to(comments_controller_1.CommentsController);
+exports.container.bind(security_controller_1.SecurityDevicesController).to(security_controller_1.SecurityDevicesController);
+exports.jwtService = exports.container.resolve(jwt_service_1.JwtService);
+exports.authRepositories = exports.container.resolve(auth_repository_1.AuthRepositories);
+exports.postsQueryRepository = exports.container.resolve(posts_query_repository_1.PostsQueryRepository);
+exports.commentQueryRepository = exports.container.resolve(comment_query_repository_1.CommentQueryRepository);
+exports.usersQueryRepository = exports.container.resolve(users_query_repository_1.UsersQueryRepository);
+exports.blogsQueryRepository = exports.container.resolve(blogs_query_repository_1.BlogsQueryRepository);
 //# sourceMappingURL=composition-root.js.map

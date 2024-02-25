@@ -1,4 +1,3 @@
-import {blogsController } from "../../common/composition-root/composition-root";
 import {
     blogDescValidation,
     blogIdValidation,
@@ -12,6 +11,9 @@ import {
     postBlogBindIdExistValidation
 } from "../../validation/blogs-posts-bind-validation";
 import {postContentValidation, postDescValidation, postTitleValidation} from "../../validation/posts-validation";
+import {container} from "../../common/composition-root/composition-root";
+import {AuthController} from "../../auth/auth-router/auth-controller";
+import {BlogsControllerConstructor} from "./blogs-controller";
 export const blogsPostBindValidators = [
     authorizationMiddleware,
     postTitleValidation,
@@ -29,6 +31,7 @@ const blogValidators = [
     inputValidationMiddleware,
 ]
 export const blogsRouter = Router({})
+export const blogsController = container.resolve(BlogsControllerConstructor)
 
 blogsRouter.get('/', blogsController.getBlogs.bind(blogsController))
 blogsRouter.get('/:id', blogIdValidation, blogsController.getBlogById.bind(blogsController))

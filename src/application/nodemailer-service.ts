@@ -1,4 +1,8 @@
+import {injectable} from "inversify";
+
 const nodemailer = require("nodemailer");
+
+@injectable()
 export class NodemailerService  {
     async send(confirmationCode: string, emailToSend: string) {
         try {

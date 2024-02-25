@@ -6,9 +6,11 @@ import {AuthRepositories} from "../auth-repository/auth-repository";
 import {JwtService} from "../../application/jwt-service";
 import {UsersRepositories} from "../../users/repository/users-repository";
 import {NodemailerService} from "../../application/nodemailer-service";
+import {injectable} from "inversify";
 
 const bcrypt = require('bcrypt');
 
+@injectable()
 export class AuthService {
     constructor(protected authRepositories: AuthRepositories,
                 protected jwtService: JwtService,
