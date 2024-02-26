@@ -80,7 +80,7 @@ let PostsController = class PostsController {
     getPostById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const post = yield this.postsQueryRepository.getPostById(req.params.id);
+                const post = yield this.postsQueryRepository.getPostById(new mongodb_1.ObjectId(req.params.id), req.headers.authorization);
                 if (!post) {
                     res.sendStatus(http_statuses_1.HTTP_STATUSES.NOT_FOUND_404);
                     return;

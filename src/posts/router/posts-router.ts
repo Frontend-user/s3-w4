@@ -58,7 +58,6 @@ postsRouter.put('/:id', ...postValidators, postsController.updatePost.bind(posts
 
 postsRouter.put('/:postId/like-status',
     bearerAuthMiddleware,
-
     likeStatusValidation,
     postIdExistValidation,
     commentInputValidationMiddleware,

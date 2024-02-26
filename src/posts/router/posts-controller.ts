@@ -61,7 +61,7 @@ export class PostsController {
 
     async getPostById(req: Request, res: Response) {
         try {
-            const post = await this.postsQueryRepository.getPostById(req.params.id)
+            const post = await this.postsQueryRepository.getPostById(new ObjectId(req.params.id), req.headers.authorization)
             if (!post) {
                 res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
                 return
