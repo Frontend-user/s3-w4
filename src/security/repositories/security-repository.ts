@@ -19,7 +19,6 @@ export class SecurityRepositories {
     }
     async updateDevice(refreshToken: string) {
         let token = await this.jwtService.getRefreshToken(refreshToken)
-        console.log(token, 'token')
         let deviceId = token.deviceId
         const response = await DeviceModel.updateOne({deviceId: deviceId}, {'lastActiveDate':  new Date(token.iat).toISOString()})
         return !!response

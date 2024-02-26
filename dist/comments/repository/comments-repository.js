@@ -79,7 +79,6 @@ let CommentsRepository = class CommentsRepository {
                     }
                 });
                 const updatedComment = yield db_1.CommentModel.findOne({ _id: id });
-                console.log(updatedComment.likesInfo.usersLikeStatuses, 'gggggggggggggggggggggggggggg');
             }
             if (likeStatus === http_statuses_1.LIKE_STATUSES.NONE && findObject && likeStatus !== comment.likesInfo.myStatus) {
                 console.log(comment.likesInfo, 'BEFORE LIKEINO');

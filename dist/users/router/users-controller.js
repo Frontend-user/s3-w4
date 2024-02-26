@@ -63,7 +63,7 @@ let UsersController = class UsersController {
                     }
                 }
                 catch (e) {
-                    console.log(e, 'EERRRor');
+                    console.log(e, 'error');
                 }
             }
             catch (error) {

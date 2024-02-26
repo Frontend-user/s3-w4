@@ -13,7 +13,7 @@ export class BlogsRepositories {
 
         }
         catch (e){
-            console.log(e,'er')
+            console.log(e)
             return false
         }
     }

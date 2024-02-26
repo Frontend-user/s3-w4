@@ -60,8 +60,10 @@ export class PostsController {
     }
 
     async getPostById(req: Request, res: Response) {
+        debugger
+
         try {
-            const post = await this.postsQueryRepository.getPostById(new ObjectId(req.params.id), req.headers.authorization)
+            const post = await this.postsQueryRepository.getPostById(new ObjectId(req.params.id))
             if (!post) {
                 res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
                 return
@@ -111,7 +113,6 @@ export class PostsController {
     }
 
     async updatePostLikeStatus(req: Request, res: Response) {
-        console.log('sfzddddddddddd')
         try {
             const response: boolean = await this.postsService.updatePostLikeStatus(new ObjectId(req.params.postId), req.body.likeStatus)
             let post = await this.postsQueryRepository.getPostById(new ObjectId(req.params.postId), req.headers.authorization)

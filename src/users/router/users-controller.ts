@@ -48,7 +48,7 @@ export class UsersController  {
                     return
                 }
             } catch (e) {
-                console.log(e, 'EERRRor')
+                console.log(e, 'error')
             }
 
 

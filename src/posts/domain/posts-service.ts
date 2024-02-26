@@ -16,7 +16,6 @@ export class PostsService {
         return await this.postsRepositories.updatePost(id, updatePost)
     }
     async updatePostLikeStatus(id: ObjectId, likeStatus: string): Promise<boolean> {
-        console.log(2)
         return await this.postsRepositories.updatePostLikeStatus(id, likeStatus)
     }
 

@@ -50,7 +50,7 @@ export const customTestsService = {
             .post('/blogs')
             .set('authorization', 'Bearer ' + accessToken)
             .send(correctBlogData)
-        return response.body.id
+        return response
     },
     async createPost(accessToken:string, blogId: string) {
         const response: any = await request(app)

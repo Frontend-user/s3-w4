@@ -79,8 +79,9 @@ let PostsController = class PostsController {
     }
     getPostById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            debugger;
             try {
-                const post = yield this.postsQueryRepository.getPostById(new mongodb_1.ObjectId(req.params.id), req.headers.authorization);
+                const post = yield this.postsQueryRepository.getPostById(new mongodb_1.ObjectId(req.params.id));
                 if (!post) {
                     res.sendStatus(http_statuses_1.HTTP_STATUSES.NOT_FOUND_404);
                     return;
@@ -129,7 +130,6 @@ let PostsController = class PostsController {
     }
     updatePostLikeStatus(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('sfzddddddddddd');
             try {
                 const response = yield this.postsService.updatePostLikeStatus(new mongodb_1.ObjectId(req.params.postId), req.body.likeStatus);
                 let post = yield this.postsQueryRepository.getPostById(new mongodb_1.ObjectId(req.params.postId), req.headers.authorization);

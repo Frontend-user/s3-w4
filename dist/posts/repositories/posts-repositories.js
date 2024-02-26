@@ -35,9 +35,7 @@ let PostsRepositories = class PostsRepositories {
     }
     updatePostLikeStatus(id, likeStatus) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('repo');
             debugger;
-            console.log(current_user_1.currentUser, 'CURRENT');
             const userIdLikeStatus = {
                 userId: current_user_1.currentUser.userId,
                 likeStatus: likeStatus,
@@ -89,10 +87,8 @@ let PostsRepositories = class PostsRepositories {
                     }
                 });
                 const updatedPost = yield db_1.PostModel.findOne({ _id: id });
-                console.log(updatedPost.extendedLikesInfo.usersLikeStatuses, 'gggggggggggggggggggggggggggg');
             }
             if (likeStatus === http_statuses_1.LIKE_STATUSES.NONE && findObject && likeStatus !== post.extendedLikesInfo.myStatus) {
-                console.log(post.extendedLikesInfo, 'BEFORE LIKEINO');
                 const getPost = yield db_1.PostModel.findOne({ _id: id });
                 let dislikes = getPost.extendedLikesInfo.dislikesCount;
                 let likes = getPost.extendedLikesInfo.likesCount;

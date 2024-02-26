@@ -26,7 +26,7 @@ let BlogsRepositories = class BlogsRepositories {
                 return response ? response._id : false;
             }
             catch (e) {
-                console.log(e, 'er');
+                console.log(e);
                 return false;
             }
         });

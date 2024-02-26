@@ -46,7 +46,6 @@ let CommentsController = class CommentsController {
                 const response = yield this.commentsService.updateCommentLikeStatus(new mongodb_1.ObjectId(req.params.commentId), req.body.likeStatus);
                 let comment = yield this.commentQueryRepository.getCommentById(new mongodb_1.ObjectId(req.params.commentId), req.headers.authorization);
                 // res.send(comment)
-                // console.log(comment,'updateCommentLikeStatus')
                 res.sendStatus(response ? http_statuses_1.HTTP_STATUSES.NO_CONTENT_204 : http_statuses_1.HTTP_STATUSES.NOT_FOUND_404);
             }
             catch (error) {
@@ -68,7 +67,6 @@ let CommentsController = class CommentsController {
     getCommentById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const comment = yield this.commentQueryRepository.getCommentById(new mongodb_1.ObjectId(req.params.id), req.headers.authorization);
-            console.log(comment, 'comment');
             return comment ? res.send(comment) : res.sendStatus(404);
         });
     }

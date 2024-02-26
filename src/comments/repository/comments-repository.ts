@@ -71,7 +71,6 @@ export class CommentsRepository {
                 }
             })
             const updatedComment: any = await CommentModel.findOne({_id: id})
-            console.log(updatedComment.likesInfo.usersLikeStatuses, 'gggggggggggggggggggggggggggg')
         }
 
         if (likeStatus === LIKE_STATUSES.NONE && findObject && likeStatus !==comment.likesInfo.myStatus) {

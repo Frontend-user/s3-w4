@@ -44,7 +44,6 @@ let SecurityRepositories = class SecurityRepositories {
     updateDevice(refreshToken) {
         return __awaiter(this, void 0, void 0, function* () {
             let token = yield this.jwtService.getRefreshToken(refreshToken);
-            console.log(token, 'token');
             let deviceId = token.deviceId;
             const response = yield db_1.DeviceModel.updateOne({ deviceId: deviceId }, { 'lastActiveDate': new Date(token.iat).toISOString() });
             return !!response;

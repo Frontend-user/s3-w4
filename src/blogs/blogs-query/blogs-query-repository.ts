@@ -5,7 +5,7 @@ import {blogsSorting} from "./utils/blogs-sorting";
 import {blogsFinding} from "./utils/blogs-finding";
 import {blogsPaginate} from "./utils/blogs-paginate";
 import {Pagination} from "../../common/types/pagination";
-import {changeIdFormat} from "../../common/custom-methods/change-id-format";
+import {changeBlogFormat, changeIdFormat} from "../../common/custom-methods/change-id-format";
 import {injectable} from "inversify";
 
 @injectable()
@@ -33,6 +33,6 @@ export class BlogsQueryRepository {
 
     async getBlogById(id: string): Promise<BlogViewType | false> {
         const blog: BlogEntityType | null = await BlogModel.findOne({_id: new ObjectId(id)}).lean()
-        return blog ? changeIdFormat(blog) : false
+        return blog ? changeBlogFormat(blog) : false
     }
 }

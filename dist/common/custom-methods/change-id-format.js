@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMongoUserId = exports.changeIdFormat = void 0;
+exports.deleteMongoUserId = exports.changeBlogFormat = exports.changeIdFormat = void 0;
 const changeIdFormat = (obj) => {
     obj.id = obj._id;
     delete obj._id;
@@ -9,6 +9,13 @@ const changeIdFormat = (obj) => {
     return obj;
 };
 exports.changeIdFormat = changeIdFormat;
+const changeBlogFormat = (obj) => {
+    obj.id = obj._id;
+    delete obj._id;
+    delete obj.__v;
+    return obj;
+};
+exports.changeBlogFormat = changeBlogFormat;
 const deleteMongoUserId = (obj) => {
     delete obj._id;
     delete obj.userId;

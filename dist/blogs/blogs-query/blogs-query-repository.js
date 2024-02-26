@@ -46,7 +46,7 @@ let BlogsQueryRepository = class BlogsQueryRepository {
     getBlogById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const blog = yield db_1.BlogModel.findOne({ _id: new mongodb_1.ObjectId(id) }).lean();
-            return blog ? (0, change_id_format_1.changeIdFormat)(blog) : false;
+            return blog ? (0, change_id_format_1.changeBlogFormat)(blog) : false;
         });
     }
 };

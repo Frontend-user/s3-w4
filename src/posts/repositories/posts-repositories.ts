@@ -21,9 +21,7 @@ export class PostsRepositories {
     }
 
     async updatePostLikeStatus(id: ObjectId, likeStatus: string): Promise<boolean> {
-        console.log('repo')
-        debugger;
-        console.log(currentUser,'CURRENT')
+      debugger
         const userIdLikeStatus: usersIdsPostsLikeStatuses = {
             userId: currentUser.userId,
             likeStatus: likeStatus,
@@ -82,11 +80,9 @@ export class PostsRepositories {
                 }
             })
             const updatedPost: any = await PostModel.findOne({_id: id})
-            console.log(updatedPost.extendedLikesInfo.usersLikeStatuses, 'gggggggggggggggggggggggggggg')
         }
 
         if (likeStatus === LIKE_STATUSES.NONE && findObject && likeStatus !== post.extendedLikesInfo.myStatus) {
-            console.log(post.extendedLikesInfo, 'BEFORE LIKEINO')
             const getPost: any = await PostModel.findOne({_id: id})
             let dislikes: number = getPost.extendedLikesInfo.dislikesCount
             let likes: number = getPost.extendedLikesInfo.likesCount
