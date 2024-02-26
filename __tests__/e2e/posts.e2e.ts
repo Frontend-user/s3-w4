@@ -180,6 +180,7 @@ describe('/CUSTOM', () => {
             .get(`/blogs/${blogId}/posts`)
 
         consoleLog('Get POST BY BLOGID\' COMMENT', 'comment', response.body)
+        consoleLog('Get POST BY BLOGID\' COMMENT', 'comment', response.body.items[0].extendedLikesInfo)
     });
     // it('LOGOUT', async () => {
     //     let logoutResponse = await customTestsService.logout(tokens.refreshToken)

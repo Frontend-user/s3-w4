@@ -41,31 +41,15 @@ export class PostsQueryRepository {
         let posts: PostEntityType[] = await PostModel.find({"blogId": blogId}).sort(sortQuery).skip(skip).limit(limit).lean()
         const allPosts = await PostModel.find({"blogId": blogId}).lean()
         let pagesCount = Math.ceil(allPosts.length / newPageSize)
-        posts.forEach((post)=>{
 
-            let allLikeStatuses:any = post.extendedLikesInfo.usersLikeStatuses
-            let newestLikes:any = post.extendedLikesInfo.newestLikes
-            allLikeStatuses.forEach((item:any) => {
-                if (item.likeStatus === LIKE_STATUSES.LIKE) {
-                    delete item.likeStatus
-                    newestLikes.push(item)
-                }
-            })
-            post.extendedLikesInfo.newestLikes = newestLikes.sort((a:any, b:any) => {
-                const addedAtA = a.addedAt.toUpperCase();
-                const addedAtB = b.addedAt.toUpperCase();
-                if (addedAtA < addedAtB) {
-                    return 1;
-                }
-                if (addedAtA > addedAtB) {
-                    return -1;
-                }
-                return 0;
-            }).slice(0,3)
-            return post
-        })
 
-        const fixArrayIds = posts.map((item => changeIdFormat(item)))
+        let fixArrayIds: any[] = []
+        for (let i = 0; i < posts.length; i++) {
+            let post = await this.getPostById(posts[i]._id)
+            fixArrayIds.push(post)
+        }
+
+        fixArrayIds = posts.map((item => changeIdFormat(item, true)))
 
         return {
             "pagesCount": pagesCount,
@@ -104,13 +88,13 @@ export class PostsQueryRepository {
         }
         let allLikeStatuses = post.extendedLikesInfo.usersLikeStatuses
         let newestLikes = post.extendedLikesInfo.newestLikes
-        allLikeStatuses.forEach((item:any) => {
+        allLikeStatuses.forEach((item: any) => {
             if (item.likeStatus === LIKE_STATUSES.LIKE) {
                 delete item.likeStatus
                 newestLikes.push(item)
             }
         })
-        post.extendedLikesInfo.newestLikes = newestLikes.sort((a:any, b:any) => {
+        post.extendedLikesInfo.newestLikes = newestLikes.sort((a: any, b: any) => {
             const addedAtA = a.addedAt.toUpperCase();
             const addedAtB = b.addedAt.toUpperCase();
             if (addedAtA < addedAtB) {
@@ -120,7 +104,7 @@ export class PostsQueryRepository {
                 return -1;
             }
             return 0;
-        }).slice(0,3)
+        }).slice(0, 3)
         return post ? changeIdFormat(post) : false
 
         // const post: PostEntityType | null = await PostModel.findOne({_id: new ObjectId(id)}).lean()
