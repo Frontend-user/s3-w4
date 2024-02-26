@@ -29,7 +29,7 @@ let THREE_USER_correctSecondUserData = {
     "password": "password",
 }
 let FOUR_USER_correctSecondUserData = {
-    "login": "string3",
+    "login": "string4",
     "email": "emailemail4@mail.ru",
     "password": "password",
 }

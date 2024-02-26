@@ -82,7 +82,7 @@ export class PostsQueryRepository {
         let allLikeStatuses = post.extendedLikesInfo.usersLikeStatuses
         let newestLikes = post.extendedLikesInfo.newestLikes
         allLikeStatuses.forEach((item:any) => {
-            if (item.likeStatus === LIKE_STATUSES.LIKE && newestLikes.length < 3) {
+            if (item.likeStatus === LIKE_STATUSES.LIKE) {
                 delete item.likeStatus
                 newestLikes.push(item)
             }
@@ -97,7 +97,7 @@ export class PostsQueryRepository {
                 return -1;
             }
             return 0;
-        });
+        }).slice(0,3)
         return post ? changeIdFormat(post) : false
 
         // const post: PostEntityType | null = await PostModel.findOne({_id: new ObjectId(id)}).lean()

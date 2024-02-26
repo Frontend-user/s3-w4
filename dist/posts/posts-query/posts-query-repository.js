@@ -95,7 +95,7 @@ let PostsQueryRepository = class PostsQueryRepository {
             let allLikeStatuses = post.extendedLikesInfo.usersLikeStatuses;
             let newestLikes = post.extendedLikesInfo.newestLikes;
             allLikeStatuses.forEach((item) => {
-                if (item.likeStatus === http_statuses_1.LIKE_STATUSES.LIKE && newestLikes.length < 3) {
+                if (item.likeStatus === http_statuses_1.LIKE_STATUSES.LIKE) {
                     delete item.likeStatus;
                     newestLikes.push(item);
                 }
@@ -110,7 +110,7 @@ let PostsQueryRepository = class PostsQueryRepository {
                     return -1;
                 }
                 return 0;
-            });
+            }).slice(0, 3);
             return post ? (0, change_id_format_1.changeIdFormat)(post) : false;
             // const post: PostEntityType | null = await PostModel.findOne({_id: new ObjectId(id)}).lean()
             // return post ?  changeIdFormat(post) : false
