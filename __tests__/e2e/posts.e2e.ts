@@ -91,7 +91,33 @@ describe('/CUSTOM', () => {
         consoleLog('LIKE COMMENT', 'comment', comment.body)
     });
 
+    let createdUserId2: any
+    let tokens2 = {
+        accessToken: '', refreshToken: ''
+    }
+    it('CREATE USER', async () => {
+        createdUserId2 = await customTestsService.createUser(correctSecondUserData)
+        consoleLog('CREATE USER', 'createdUserId2', createdUserId2)
+    });
 
+
+    it('LOGIN', async () => {
+        tokens2 = await customTestsService.login({
+            "loginOrEmail": correctSecondUserData.email,
+            "password": correctSecondUserData.password,
+        })
+        consoleLog('LOGIN', 'accessToken', tokens2.accessToken)
+        // consoleLog('LOGIN', 'refreshToken', tokens2.refreshToken)
+    });
+
+
+    it('LIKE POST', async () => {
+        comment = await customTestsService.likeEntity(
+            ENTITIES.POSTS, tokens2.accessToken,
+            postId, LIKE_STATUSES.LIKE)
+        console.log(comment.body.extendedLikesInfo, 'comment.body.likesInfo')
+        consoleLog('LIKE COMMENT', 'comment', comment.body)
+    });
 //     it('get POST', async () => {
 //
 //         const response: any = await request(app)

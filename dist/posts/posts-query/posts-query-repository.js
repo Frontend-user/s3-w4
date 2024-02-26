@@ -100,8 +100,17 @@ let PostsQueryRepository = class PostsQueryRepository {
                     newestLikes.push(item);
                 }
             });
-            post.extendedLikesInfo.newestLikes = newestLikes;
-            // .sort((a:any, b:any) => a.addedAt - b.addedAt)
+            post.extendedLikesInfo.newestLikes = newestLikes.sort((a, b) => {
+                const addedAtA = a.addedAt.toUpperCase();
+                const addedAtB = b.addedAt.toUpperCase();
+                if (addedAtA < addedAtB) {
+                    return 1;
+                }
+                if (addedAtA > addedAtB) {
+                    return -1;
+                }
+                return 0;
+            });
             return post ? (0, change_id_format_1.changeIdFormat)(post) : false;
             // const post: PostEntityType | null = await PostModel.findOne({_id: new ObjectId(id)}).lean()
             // return post ?  changeIdFormat(post) : false
