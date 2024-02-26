@@ -54,6 +54,28 @@ let PostsQueryRepository = class PostsQueryRepository {
             let posts = yield db_1.PostModel.find({ "blogId": blogId }).sort(sortQuery).skip(skip).limit(limit).lean();
             const allPosts = yield db_1.PostModel.find({ "blogId": blogId }).lean();
             let pagesCount = Math.ceil(allPosts.length / newPageSize);
+            posts.forEach((post) => {
+                let allLikeStatuses = post.extendedLikesInfo.usersLikeStatuses;
+                let newestLikes = post.extendedLikesInfo.newestLikes;
+                allLikeStatuses.forEach((item) => {
+                    if (item.likeStatus === http_statuses_1.LIKE_STATUSES.LIKE) {
+                        delete item.likeStatus;
+                        newestLikes.push(item);
+                    }
+                });
+                post.extendedLikesInfo.newestLikes = newestLikes.sort((a, b) => {
+                    const addedAtA = a.addedAt.toUpperCase();
+                    const addedAtB = b.addedAt.toUpperCase();
+                    if (addedAtA < addedAtB) {
+                        return 1;
+                    }
+                    if (addedAtA > addedAtB) {
+                        return -1;
+                    }
+                    return 0;
+                }).slice(0, 3);
+                return post;
+            });
             const fixArrayIds = posts.map((item => (0, change_id_format_1.changeIdFormat)(item)));
             return {
                 "pagesCount": pagesCount,
