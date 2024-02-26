@@ -96,6 +96,7 @@ let PostsQueryRepository = class PostsQueryRepository {
             let newestLikes = post.extendedLikesInfo.newestLikes;
             allLikeStatuses.forEach((item) => {
                 if (item.likeStatus === http_statuses_1.LIKE_STATUSES.LIKE && newestLikes.length < 3) {
+                    delete item.likeStatus;
                     newestLikes.push(item);
                 }
             });
