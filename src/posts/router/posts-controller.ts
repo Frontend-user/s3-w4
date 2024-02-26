@@ -120,7 +120,7 @@ export class PostsController {
             const response: boolean = await this.postsService.updatePostLikeStatus(new ObjectId(req.params.postId), req.body.likeStatus)
             let post = await this.postsQueryRepository.getPostById(new ObjectId(req.params.postId), req.headers.authorization)
             // res.send(post)
-            res.sendStatus(reesponse ? HTTP_STATUSES.NO_CONTENT_204 : HTTP_STATUSES.NOT_FOUND_404)
+            res.sendStatus(response ? HTTP_STATUSES.NO_CONTENT_204 : HTTP_STATUSES.NOT_FOUND_404)
 
         } catch (error) {
             res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)

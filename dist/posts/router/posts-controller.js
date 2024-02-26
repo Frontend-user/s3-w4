@@ -134,7 +134,7 @@ let PostsController = class PostsController {
                 const response = yield this.postsService.updatePostLikeStatus(new mongodb_1.ObjectId(req.params.postId), req.body.likeStatus);
                 let post = yield this.postsQueryRepository.getPostById(new mongodb_1.ObjectId(req.params.postId), req.headers.authorization);
                 // res.send(post)
-                res.sendStatus(reesponse ? http_statuses_1.HTTP_STATUSES.NO_CONTENT_204 : http_statuses_1.HTTP_STATUSES.NOT_FOUND_404);
+                res.sendStatus(response ? http_statuses_1.HTTP_STATUSES.NO_CONTENT_204 : http_statuses_1.HTTP_STATUSES.NOT_FOUND_404);
             }
             catch (error) {
                 res.sendStatus(http_statuses_1.HTTP_STATUSES.NOT_FOUND_404);
