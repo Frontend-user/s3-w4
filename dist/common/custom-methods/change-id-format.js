@@ -4,6 +4,7 @@ exports.deleteMongoUserId = exports.changeIdFormat = void 0;
 const changeIdFormat = (obj) => {
     obj.id = obj._id;
     delete obj._id;
+    delete obj.extendedLikesInfo.usersLikeStatuses;
     delete obj.__v;
     return obj;
 };

@@ -4,10 +4,11 @@ import { bearerAuthMiddleware} from "../../validation/auth-validation";
 import {
     commentContentValidation, commentDeleteInputValidationMiddleware,
     commentIdExistValidation,
-    commentInputValidationMiddleware, commentLikeStatusValidation, haveAccesForUpdate
+    commentInputValidationMiddleware, haveAccesForUpdate, likeStatusValidation
 } from "../validation/comments-validation";
 import {container} from "../../common/composition-root/composition-root";
 import {CommentsController} from "./comments-controller";
+import {postsController} from "../../posts/router/posts-router";
 
 export const commentsRouter = Router({})
 export const commentsController = container.resolve(CommentsController)
@@ -17,7 +18,7 @@ commentsRouter.put('/:commentId', bearerAuthMiddleware, commentContentValidation
 
 commentsRouter.put('/:commentId/like-status',
     bearerAuthMiddleware,
-    commentLikeStatusValidation,
+    likeStatusValidation,
     commentIdExistValidation,
     commentInputValidationMiddleware,
     commentsController.updateCommentLikeStatus.bind(commentsController))

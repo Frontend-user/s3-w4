@@ -25,5 +25,6 @@ exports.postsRouter.get('/', exports.postsController.getPosts.bind(exports.posts
 exports.postsRouter.get('/:id', posts_validation_1.postIdValidation, exports.postsController.getPostById.bind(exports.postsController));
 exports.postsRouter.post('/', ...exports.postValidators, exports.postsController.createPost.bind(exports.postsController));
 exports.postsRouter.put('/:id', ...exports.postValidators, exports.postsController.updatePost.bind(exports.postsController));
+exports.postsRouter.put('/:postId/like-status', auth_validation_1.bearerAuthMiddleware, comments_validation_1.likeStatusValidation, posts_validation_1.postIdExistValidation, comments_validation_1.commentInputValidationMiddleware, exports.postsController.updatePostLikeStatus.bind(exports.postsController));
 exports.postsRouter.delete('/:id', auth_validation_1.authorizationMiddleware, posts_validation_1.postIdValidation, exports.postsController.deletePost.bind(exports.postsController));
 //# sourceMappingURL=posts-router.js.map

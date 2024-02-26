@@ -23,7 +23,7 @@ export class CommentsController {
             const response: boolean = await this.commentsService.updateCommentLikeStatus(new ObjectId(req.params.commentId), req.body.likeStatus)
             let comment = await this.commentQueryRepository.getCommentById(new ObjectId(req.params.commentId), req.headers.authorization)
             // res.send(comment)
-            console.log(comment,'updateCommentLikeStatus')
+            // console.log(comment,'updateCommentLikeStatus')
             res.sendStatus(response ? HTTP_STATUSES.NO_CONTENT_204 : HTTP_STATUSES.NOT_FOUND_404)
 
         } catch (error) {

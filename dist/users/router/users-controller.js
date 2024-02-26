@@ -19,12 +19,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
+const inversify_1 = require("inversify");
 const query_data_1 = require("../../common/custom-methods/query-data");
 const http_statuses_1 = require("../../common/constants/http-statuses");
 const mongodb_1 = require("mongodb");
 const users_query_repository_1 = require("../query-repository/users-query-repository");
 const users_service_1 = require("../domain/users-service");
-const inversify_1 = require("inversify");
 let UsersController = class UsersController {
     constructor(usersService, usersQueryRepository) {
         this.usersService = usersService;

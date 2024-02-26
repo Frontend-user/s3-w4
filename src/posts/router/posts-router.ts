@@ -8,14 +8,14 @@ import {
     postBlogIdExistValidation,
     postBlogIdValidation,
     postContentValidation,
-    postDescValidation,
+    postDescValidation, postIdExistValidation,
     postIdValidation,
     postTitleValidation
 } from "../../validation/posts-validation";
 import {inputValidationMiddleware} from "../../validation/blogs-validation";
 import {
     commentContentValidation, commentInputValidationMiddleware,
-    commentPostIdExistValidation
+    commentPostIdExistValidation, likeStatusValidation
 } from "../../comments/validation/comments-validation";
 import {PostsController} from "./posts-controller";
 import {container} from "../../common/composition-root/composition-root";
@@ -50,10 +50,19 @@ postsRouter.get('/', postsController.getPosts.bind(postsController))
 
 postsRouter.get('/:id', postIdValidation, postsController.getPostById.bind(postsController))
 
-postsRouter.post('/', ...postValidators, postsController.createPost.bind(postsController))
+postsRouter.post('/',
+    ...postValidators,
+    postsController.createPost.bind(postsController))
 
 postsRouter.put('/:id', ...postValidators, postsController.updatePost.bind(postsController))
 
+postsRouter.put('/:postId/like-status',
+    bearerAuthMiddleware,
+
+    likeStatusValidation,
+    postIdExistValidation,
+    commentInputValidationMiddleware,
+    postsController.updatePostLikeStatus.bind(postsController))
 
 postsRouter.delete('/:id',
     authorizationMiddleware,

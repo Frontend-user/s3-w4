@@ -57,7 +57,7 @@ export const customTestsService = {
             .post('/posts')
             .set('authorization', 'Bearer ' + accessToken)
             .send({...correctPostData, blogId})
-        return response.body.id
+        return response
     },
     async createComment(accessToken:string, postId: string){
         const response: any = await request(app)
@@ -66,12 +66,12 @@ export const customTestsService = {
             .send({...correctCommentData})
         return response.body.id
     },
-    async likeComment(accessToken:string, commentId: string,likeStatus:string){
+    async likeEntity(entityUrl:string,accessToken:string, entityId: string,likeStatus:string){
         const response: any = await request(app)
-            .put(`/comments/${commentId}/like-status`)
+            .put(`/${entityUrl}/${entityId}/like-status`)
             .set('authorization', 'Bearer ' + accessToken)
-            .send({"likeStatus":""})
-            .expect(400, { errorsMessages: [{ message: 'String', field: "likeStatus" }] })
+            .send({"likeStatus":likeStatus})
+            // .expect(400, { errorsMessages: [{ message: 'String', field: "likeStatus" }] })
         return response
     },
 

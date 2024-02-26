@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -17,12 +20,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsQueryRepository = void 0;
 const db_1 = require("../../db");
-const mongodb_1 = require("mongodb");
 const blogs_sorting_1 = require("../../blogs/blogs-query/utils/blogs-sorting");
 const blogs_paginate_1 = require("../../blogs/blogs-query/utils/blogs-paginate");
 const change_id_format_1 = require("../../common/custom-methods/change-id-format");
 const inversify_1 = require("inversify");
+const http_statuses_1 = require("../../common/constants/http-statuses");
+const jwt_service_1 = require("../../application/jwt-service");
 let PostsQueryRepository = class PostsQueryRepository {
+    constructor(jwtService) {
+        this.jwtService = jwtService;
+    }
     getPosts(sortBy, sortDirection, pageNumber, pageSize) {
         return __awaiter(this, void 0, void 0, function* () {
             const sortQuery = blogs_sorting_1.blogsSorting.getSorting(sortBy, sortDirection);
@@ -57,15 +64,52 @@ let PostsQueryRepository = class PostsQueryRepository {
             };
         });
     }
-    getPostById(id) {
+    getPostById(postId, auth, getPost) {
         return __awaiter(this, void 0, void 0, function* () {
-            const post = yield db_1.PostModel.findOne({ _id: new mongodb_1.ObjectId(id) }).lean();
+            let post;
+            if (!getPost && postId) {
+                post = yield db_1.PostModel.findOne({ _id: postId }).lean();
+            }
+            else {
+                post = getPost;
+            }
+            let accessUserId;
+            if (auth) {
+                accessUserId = yield this.jwtService.checkToken(auth.split(' ')[1]);
+            }
+            if (accessUserId) {
+                let usersLikeStatuses = post.extendedLikesInfo.usersLikeStatuses;
+                if (usersLikeStatuses && usersLikeStatuses.length > 0) {
+                    let info = usersLikeStatuses.find(o => o.userId === accessUserId);
+                    if (info) {
+                        post.extendedLikesInfo.myStatus = info.likeStatus;
+                    }
+                    else {
+                        post.extendedLikesInfo.myStatus = http_statuses_1.LIKE_STATUSES.NONE;
+                    }
+                }
+            }
+            else {
+                post.extendedLikesInfo.myStatus = http_statuses_1.LIKE_STATUSES.NONE;
+            }
+            let allLikeStatuses = post.extendedLikesInfo.usersLikeStatuses;
+            let newestLikes = post.extendedLikesInfo.newestLikes;
+            allLikeStatuses.forEach((item) => {
+                if (item.likeStatus === http_statuses_1.LIKE_STATUSES.LIKE && newestLikes.length < 3) {
+                    newestLikes.push(item);
+                }
+            });
+            post.extendedLikesInfo.newestLikes = newestLikes;
+            // .sort((a:any, b:any) => a.addedAt - b.addedAt)
             return post ? (0, change_id_format_1.changeIdFormat)(post) : false;
+            // const post: PostEntityType | null = await PostModel.findOne({_id: new ObjectId(id)}).lean()
+            // return post ?  changeIdFormat(post) : false
         });
     }
 };
 exports.PostsQueryRepository = PostsQueryRepository;
 exports.PostsQueryRepository = PostsQueryRepository = __decorate([
-    (0, inversify_1.injectable)()
+    (0, inversify_1.injectable)(),
+    __metadata("design:paramtypes", [jwt_service_1.JwtService])
 ], PostsQueryRepository);
 //# sourceMappingURL=posts-query-repository.js.map

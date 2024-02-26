@@ -11,7 +11,8 @@ export const commentContentValidation = body('content').trim().isLength({min: 20
     message: 'content is wrong',
     field: 'content'
 })
-export const commentLikeStatusValidation = body('likeStatus')
+export const likeStatusValidation = body('likeStatus')
+
     .trim()
     .custom((value) => {
     let correctValues = ["Like", "None", "Dislike"]
@@ -71,6 +72,7 @@ export const haveAccesForUpdate = param('commentId').custom(async (value, {req})
     field: 'No access'
 })
 export const commentInputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
+
     const errors = validationResult(req).array({onlyFirstError: true})
     if (errors.length) {
         let errorsForClient: ErrorType[] = []

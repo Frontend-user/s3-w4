@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.commentDeleteInputValidationMiddleware = exports.commentInputValidationMiddleware = exports.haveAccesForUpdate = exports.commentPostIdExistValidation = exports.IdExistValidation = exports.commentIdExistValidation = exports.commentLikeStatusValidation = exports.commentContentValidation = void 0;
+exports.commentDeleteInputValidationMiddleware = exports.commentInputValidationMiddleware = exports.haveAccesForUpdate = exports.commentPostIdExistValidation = exports.IdExistValidation = exports.commentIdExistValidation = exports.likeStatusValidation = exports.commentContentValidation = void 0;
 const express_validator_1 = require("express-validator");
 const mongodb_1 = require("mongodb");
 const current_user_1 = require("../../application/current-user");
@@ -18,7 +18,7 @@ exports.commentContentValidation = (0, express_validator_1.body)('content').trim
     message: 'content is wrong',
     field: 'content'
 });
-exports.commentLikeStatusValidation = (0, express_validator_1.body)('likeStatus')
+exports.likeStatusValidation = (0, express_validator_1.body)('likeStatus')
     .trim()
     .custom((value) => {
     let correctValues = ["Like", "None", "Dislike"];

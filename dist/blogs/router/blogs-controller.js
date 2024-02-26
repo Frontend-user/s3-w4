@@ -131,6 +131,13 @@ let BlogsControllerConstructor = class BlogsControllerConstructor {
                     content: req.body.content,
                     blogId: req.params.blogId,
                     blogName: getBlogName,
+                    extendedLikesInfo: {
+                        likesCount: 0,
+                        dislikesCount: 0,
+                        myStatus: "None",
+                        newestLikes: [],
+                        usersLikeStatuses: []
+                    },
                     createdAt: new Date().toISOString()
                 };
                 try {

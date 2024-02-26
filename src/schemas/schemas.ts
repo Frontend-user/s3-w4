@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
-import {PostEntityType} from "../common/types/post-type";
+import { PostEntityType} from "../common/types/post-type";
 import {ObjectId} from "mongodb";
 import {BlogEntityType} from "../common/types/blog-type";
 import {UserEmailEntityType} from "../users/types/user-types";
 import {RecoveryCodeType} from "../common/types/recovery-type";
 
 export type usersIdsLikeStatuses = { userId: String, likeStatus: String }
+export type usersIdsPostsLikeStatuses = { userId: String, likeStatus: String, addedAt:String, login:String }
+export type newestLikes = { addedAt: String, userId: String, login:  String}
 export const commentSchema = new mongoose.Schema({
     content: {type: String, required: true},
     commentatorInfo: {
@@ -29,9 +31,17 @@ export const postSchema = new mongoose.Schema<PostEntityType>({
     title: {type: String, required: true},
     shortDescription: {type: String, required: true},
     content: {type: String, required: true},
+
+    blogId: {type: String, required: true},
     blogName: {type: String, required: true},
+    extendedLikesInfo: {
+        likesCount: {type: Number, required: true},
+        dislikesCount: {type: Number, required: true},
+        myStatus:{type: String, required: true},
+        newestLikes: {type: Array<newestLikes>, required: false},
+        usersLikeStatuses: {type: Array<usersIdsPostsLikeStatuses>, required: false}
+    },
     createdAt: {type: String, required: true},
-    blogId: {type: String || ObjectId, required: true}
 })
 export const blogSchema = new mongoose.Schema<BlogEntityType>({
     name: {type: String, required: true},

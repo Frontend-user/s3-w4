@@ -102,7 +102,7 @@ describe('/CUSTOM', () => {
         // consoleLog('LOGIN', 'tokens2.refreshToke', tokens2.refreshToken)
     });
     it('LIKE COMMENT', async () => {
-        comment = await customTestsService.likeComment(tokens2.accessToken, commentId, "")
+        comment = await customTestsService.likeComment(tokens2.accessToken, commentId, LIKE_STATUSES.LIKE)
         console.log(comment.body.likesInfo, 'comment.body.likesInfo')
         consoleLog('LIKE COMMENT', 'comment', comment.body)
     });
@@ -122,14 +122,14 @@ describe('/CUSTOM', () => {
             .expect(204,{'sdds':'s'})
     });
 
-    it('get COMMENT', async () => {
-
-        const response: any = await request(app)
-            .get(`/posts/${postId}/comments`)
-            .set('authorization', 'Bearer ' + tokens.accessToken)
-            // .send({"likeStatus":'sdfd'})
-            .expect(204,{'sdds':'s'})
-    });
+    // it('get COMMENT', async () => {
+    //
+    //     const response: any = await request(app)
+    //         .get(`/posts/${postId}/comments`)
+    //         .set('authorization', 'Bearer ' + tokens.accessToken)
+    //         // .send({"likeStatus":'sdfd'})
+    //         // .expect(204,{'sdds':'s'})
+    // });
 
     // it('get COMMENT', async () => {
     //

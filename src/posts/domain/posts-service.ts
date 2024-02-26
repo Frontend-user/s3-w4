@@ -7,7 +7,7 @@ import {injectable} from "inversify";
 export class PostsService {
     constructor(protected postsRepositories:PostsRepositories) {
     }
-    async createPost(post: PostCreateType): Promise<false | string> {
+    async createPost(post: PostCreateType): Promise<false | string | ObjectId> {
         const newPostId = await this.postsRepositories.createPost(post)
         return newPostId ? newPostId : false
     }
@@ -15,7 +15,10 @@ export class PostsService {
     async updatePost(id: ObjectId, updatePost: PostUpdateType): Promise<boolean> {
         return await this.postsRepositories.updatePost(id, updatePost)
     }
-
+    async updatePostLikeStatus(id: ObjectId, likeStatus: string): Promise<boolean> {
+        console.log(2)
+        return await this.postsRepositories.updatePostLikeStatus(id, likeStatus)
+    }
 
     async deletePost(id: ObjectId): Promise<boolean> {
         return await this.postsRepositories.deletePost(id)

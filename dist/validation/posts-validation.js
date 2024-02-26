@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postIdValidation = exports.postBlogIdExistValidation = exports.postBlogIdValidation = exports.postContentValidation = exports.postDescValidation = exports.postTitleValidation = void 0;
+exports.postIdExistValidation = exports.postIdValidation = exports.postBlogIdExistValidation = exports.postBlogIdValidation = exports.postContentValidation = exports.postDescValidation = exports.postTitleValidation = void 0;
 const express_validator_1 = require("express-validator");
 const composition_root_1 = require("../common/composition-root/composition-root");
+const mongodb_1 = require("mongodb");
 exports.postTitleValidation = (0, express_validator_1.body)('title').trim().isLength({ min: 4, max: 30 }).withMessage({
     message: 'title is wrong',
     field: 'title'
@@ -43,5 +44,17 @@ exports.postBlogIdExistValidation = (0, express_validator_1.body)('blogId').cust
 exports.postIdValidation = (0, express_validator_1.body)('id').trim().isLength({ min: 1, max: 300 }).isString().withMessage({
     message: 'id is wrong',
     field: 'id'
+});
+exports.postIdExistValidation = (0, express_validator_1.param)('postId').custom((value, { req }) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExistPostId = yield composition_root_1.postsQueryRepository.getPostById(new mongodb_1.ObjectId(value), req.headers.authorization);
+    if (isExistPostId) {
+        return true;
+    }
+    else {
+        throw new Error('Wrong postId');
+    }
+})).withMessage({
+    message: 'Wrong postId',
+    field: 'postId'
 });
 //# sourceMappingURL=posts-validation.js.map

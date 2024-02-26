@@ -35,10 +35,6 @@ let CommentsRepository = class CommentsRepository {
     }
     updateCommentLikeStatus(id, likeStatus) {
         return __awaiter(this, void 0, void 0, function* () {
-            //Получили лайк
-            // если там нету обекта тогда пушим лайк и меняем статус | ГОТОВО
-            //если есть и равен лайк тогда ничего
-            //если есть и не равен лайк тогда меняем на лайк и статус на лайк
             const userIdLikeStatus = {
                 userId: current_user_1.currentUser.userId,
                 likeStatus: likeStatus
@@ -106,34 +102,10 @@ let CommentsRepository = class CommentsRepository {
                     $pull: { 'likesInfo.usersLikeStatuses': { userId: current_user_1.currentUser.userId } }
                 });
                 const updatedComment = yield db_1.CommentModel.findOne({ _id: id });
-                console.log(updatedComment.likesInfo, 'gggggggggggggggggggggggggggglikesInfo');
-                console.log(updatedComment.likesInfo.usersLikeStatuses, 'gggggggggggggggggggggggggggg');
             }
             return true;
         });
     }
-    // let likes = 0
-    // let dislikes = 0
-    // commentLikeStatusesArray.forEach(item => {
-    //     if (item.likeStatus === LIKE_STATUSES.LIKE) {
-    //         likes += 1
-    //     }
-    // })
-    // commentLikeStatusesArray.forEach(item => {
-    //     if (item.likeStatus === LIKE_STATUSES.DISLIKE) {
-    //         dislikes += 1
-    //     }
-    // })
-    // comment.likesInfo.likesCount = likes
-    // comment.likesInfo.dislikesCount = dislikes
-    // comment.markModified('likesInfo.likesCount')
-    // comment.markModified('likesInfo.dislikesCount')
-    // let response = await comment.save()
-    // return response.matchedCount === 1;
-    // if (findObject && findObject.likeStatus === likeStatus) {
-    //     console.log('likeStatus',likeStatus)
-    //     return false
-    // }
     deleteCommentById(commentId) {
         return __awaiter(this, void 0, void 0, function* () {
             const comment = yield db_1.CommentModel.deleteOne({ _id: commentId });

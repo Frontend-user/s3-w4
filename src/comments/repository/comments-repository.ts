@@ -21,10 +21,6 @@ export class CommentsRepository {
     }
 
     async updateCommentLikeStatus(id: ObjectId, likeStatus: string): Promise<boolean> {
-        //Получили лайк
-        // если там нету обекта тогда пушим лайк и меняем статус | ГОТОВО
-        //если есть и равен лайк тогда ничего
-        //если есть и не равен лайк тогда меняем на лайк и статус на лайк
         const userIdLikeStatus: usersIdsLikeStatuses = {
             userId: currentUser.userId,
             likeStatus: likeStatus
@@ -102,37 +98,10 @@ export class CommentsRepository {
             );
 
             const updatedComment: any = await CommentModel.findOne({_id: id})
-            console.log(updatedComment.likesInfo, 'gggggggggggggggggggggggggggglikesInfo')
-            console.log(updatedComment.likesInfo.usersLikeStatuses, 'gggggggggggggggggggggggggggg')
         }
 
         return true;
     }
-
-    // let likes = 0
-    // let dislikes = 0
-    // commentLikeStatusesArray.forEach(item => {
-    //     if (item.likeStatus === LIKE_STATUSES.LIKE) {
-    //         likes += 1
-    //     }
-    // })
-    // commentLikeStatusesArray.forEach(item => {
-    //     if (item.likeStatus === LIKE_STATUSES.DISLIKE) {
-    //         dislikes += 1
-    //     }
-    // })
-    // comment.likesInfo.likesCount = likes
-    // comment.likesInfo.dislikesCount = dislikes
-    // comment.markModified('likesInfo.likesCount')
-    // comment.markModified('likesInfo.dislikesCount')
-    // let response = await comment.save()
-
-    // return response.matchedCount === 1;
-    // if (findObject && findObject.likeStatus === likeStatus) {
-    //     console.log('likeStatus',likeStatus)
-    //     return false
-    // }
-
 
     async deleteCommentById(commentId: ObjectId) {
         const comment = await CommentModel.deleteOne({_id: commentId})

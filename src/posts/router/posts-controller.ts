@@ -3,22 +3,24 @@ import {getQueryData} from "../../common/custom-methods/query-data";
 import {HTTP_STATUSES} from "../../common/constants/http-statuses";
 import {PostsQueryRepository} from "../posts-query/posts-query-repository";
 import {BlogViewType} from "../../common/types/blog-type";
-import {PostCreateType, PostViewType} from "../../common/types/post-type";
+import {PostCreateType, PostUpdateType, PostViewType} from "../../common/types/post-type";
 import {ObjectId} from "mongodb";
 import {PostsService} from "../domain/posts-service";
 import {BlogsQueryRepository} from "../../blogs/blogs-query/blogs-query-repository";
 import {CommentsService} from "../../comments/service/comments-service";
 import {CommentQueryRepository} from "../../comments/query-repository/comment-query-repository";
 import {injectable} from "inversify";
+import {BlogModel, PostModel} from "../../db";
 
 @injectable()
 export class PostsController {
-    constructor(protected postsQueryRepository:PostsQueryRepository,
-                protected postsService:PostsService,
-                protected blogsQueryRepository:BlogsQueryRepository,
-                protected commentsService:CommentsService,
-                protected commentQueryRepository:CommentQueryRepository) {
+    constructor(protected postsQueryRepository: PostsQueryRepository,
+                protected postsService: PostsService,
+                protected blogsQueryRepository: BlogsQueryRepository,
+                protected commentsService: CommentsService,
+                protected commentQueryRepository: CommentQueryRepository) {
     }
+
     async createCommentByPostId(req: Request, res: Response) {
         const commentContent: string = req.body.content
         const postId: string = req.params.postId
@@ -38,7 +40,7 @@ export class PostsController {
         const postId: string = req.params.postId
 
         try {
-            const comment = await this.commentQueryRepository.getCommentsByPostId(postId, sortBy, sortDirection, pageNumber, pageSize,req.headers.authorization)
+            const comment = await this.commentQueryRepository.getCommentsByPostId(postId, sortBy, sortDirection, pageNumber, pageSize, req.headers.authorization)
             res.status(200).send(comment)
 
         } catch (e) {
@@ -73,24 +75,27 @@ export class PostsController {
     }
 
     async createPost(req: Request, res: Response) {
-        let getBlogName
         const getBlog: BlogViewType | boolean = await this.blogsQueryRepository.getBlogById(req.body.blogId)
         if (getBlog) {
-            getBlogName = getBlog.name
             let newPost: PostCreateType = {
                 title: req.body.title,
                 shortDescription: req.body.shortDescription,
                 content: req.body.content,
                 blogId: req.body.blogId,
-                blogName: getBlogName,
+                blogName: getBlog.name,
+                extendedLikesInfo: {
+                    likesCount: 0,
+                    dislikesCount: 0,
+                    myStatus: "None",
+                    newestLikes: [],
+                    usersLikeStatuses: []
+                },
                 createdAt: new Date().toISOString()
             }
-
             try {
-                const response = await this.postsService.createPost(newPost)
-                if (response) {
-
-                    const createdPost: PostViewType | boolean = await this.postsQueryRepository.getPostById(response)
+                const postId = await this.postsService.createPost(newPost)
+                if (postId) {
+                    const createdPost: PostViewType | boolean = await this.postsQueryRepository.getPostById(postId, req.headers.authorization)
                     res.status(HTTP_STATUSES.CREATED_201).send(createdPost)
                     return
 
@@ -105,8 +110,21 @@ export class PostsController {
 
     }
 
+    async updatePostLikeStatus(req: Request, res: Response) {
+        console.log('sfzddddddddddd')
+        try {
+            const response: boolean = await this.postsService.updatePostLikeStatus(new ObjectId(req.params.postId), req.body.likeStatus)
+            let post = await this.postsQueryRepository.getPostById(new ObjectId(req.params.postId), req.headers.authorization)
+            // res.send(post)
+            res.sendStatus(response ? HTTP_STATUSES.NO_CONTENT_204 : HTTP_STATUSES.NOT_FOUND_404)
+
+        } catch (error) {
+            res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
+        }
+    }
+
     async updatePost(req: Request, res: Response) {
-        let postDataToUpdate = {
+        let postDataToUpdate: PostUpdateType = {
             title: req.body.title,
             shortDescription: req.body.shortDescription,
             content: req.body.content,

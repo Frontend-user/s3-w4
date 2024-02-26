@@ -1,3 +1,4 @@
+import {inject, injectable} from "inversify";
 import {Request, Response} from "express";
 import {getQueryData} from "../../common/custom-methods/query-data";
 import {HTTP_STATUSES} from "../../common/constants/http-statuses";
@@ -5,13 +6,15 @@ import {UserInputModelType, UserViewType} from "../types/user-types";
 import {ObjectId} from "mongodb";
 import {UsersQueryRepository} from "../query-repository/users-query-repository";
 import {UsersService} from "../domain/users-service";
-import {injectable} from "inversify";
+
 
 @injectable()
-export class UsersController {
-    constructor( protected usersService: UsersService,
-                protected usersQueryRepository: UsersQueryRepository
+export class UsersController  {
+    constructor(
+         protected usersService: UsersService,
+        protected usersQueryRepository: UsersQueryRepository
     ) {
+
     }
 
     async getUsers(req: Request, res: Response) {

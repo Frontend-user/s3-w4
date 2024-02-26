@@ -94,22 +94,27 @@ let PostsController = class PostsController {
     }
     createPost(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let getBlogName;
             const getBlog = yield this.blogsQueryRepository.getBlogById(req.body.blogId);
             if (getBlog) {
-                getBlogName = getBlog.name;
                 let newPost = {
                     title: req.body.title,
                     shortDescription: req.body.shortDescription,
                     content: req.body.content,
                     blogId: req.body.blogId,
-                    blogName: getBlogName,
+                    blogName: getBlog.name,
+                    extendedLikesInfo: {
+                        likesCount: 0,
+                        dislikesCount: 0,
+                        myStatus: "None",
+                        newestLikes: [],
+                        usersLikeStatuses: []
+                    },
                     createdAt: new Date().toISOString()
                 };
                 try {
-                    const response = yield this.postsService.createPost(newPost);
-                    if (response) {
-                        const createdPost = yield this.postsQueryRepository.getPostById(response);
+                    const postId = yield this.postsService.createPost(newPost);
+                    if (postId) {
+                        const createdPost = yield this.postsQueryRepository.getPostById(postId, req.headers.authorization);
                         res.status(http_statuses_1.HTTP_STATUSES.CREATED_201).send(createdPost);
                         return;
                     }
@@ -119,6 +124,20 @@ let PostsController = class PostsController {
                 catch (error) {
                     res.sendStatus(http_statuses_1.HTTP_STATUSES.SERVER_ERROR_500);
                 }
+            }
+        });
+    }
+    updatePostLikeStatus(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('sfzddddddddddd');
+            try {
+                const response = yield this.postsService.updatePostLikeStatus(new mongodb_1.ObjectId(req.params.postId), req.body.likeStatus);
+                let post = yield this.postsQueryRepository.getPostById(new mongodb_1.ObjectId(req.params.postId), req.headers.authorization);
+                // res.send(post)
+                res.sendStatus(response ? http_statuses_1.HTTP_STATUSES.NO_CONTENT_204 : http_statuses_1.HTTP_STATUSES.NOT_FOUND_404);
+            }
+            catch (error) {
+                res.sendStatus(http_statuses_1.HTTP_STATUSES.NOT_FOUND_404);
             }
         });
     }

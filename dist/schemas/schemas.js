@@ -28,9 +28,16 @@ exports.postSchema = new mongoose_1.default.Schema({
     title: { type: String, required: true },
     shortDescription: { type: String, required: true },
     content: { type: String, required: true },
+    blogId: { type: String, required: true },
     blogName: { type: String, required: true },
+    extendedLikesInfo: {
+        likesCount: { type: Number, required: true },
+        dislikesCount: { type: Number, required: true },
+        myStatus: { type: String, required: true },
+        newestLikes: { type: (Array), required: false },
+        usersLikeStatuses: { type: (Array), required: false }
+    },
     createdAt: { type: String, required: true },
-    blogId: { type: String || mongodb_1.ObjectId, required: true }
 });
 exports.blogSchema = new mongoose_1.default.Schema({
     name: { type: String, required: true },

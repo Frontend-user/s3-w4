@@ -8,6 +8,7 @@ import {injectable} from "inversify";
 export class CommentsService {
     constructor(protected commentsRepository:CommentsRepository) {
     }
+
     async createComment(comment: string, postId: string) {
         const newComment: CommentCreateType = {
             content: comment,

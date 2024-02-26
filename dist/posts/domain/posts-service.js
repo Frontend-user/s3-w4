@@ -36,6 +36,12 @@ let PostsService = class PostsService {
             return yield this.postsRepositories.updatePost(id, updatePost);
         });
     }
+    updatePostLikeStatus(id, likeStatus) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(2);
+            return yield this.postsRepositories.updatePostLikeStatus(id, likeStatus);
+        });
+    }
     deletePost(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.postsRepositories.deletePost(id);
