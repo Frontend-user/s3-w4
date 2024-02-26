@@ -15,6 +15,20 @@ export const authorizationMiddleware = async (req: Request, res: Response, next:
     }
 
 }
+export const logUserByTokenMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+    if (req.headers.authorization) {
+        let requestAuthCode = req.headers.authorization
+        let token = req.headers.authorization!.split(' ')[1]
+        const userId = await jwtService.checkToken(token)
+        const getUserByID = await usersQueryRepository.getUserById(new ObjectId(userId))
+        if (getUserByID) {
+            currentUser.userId = userId
+            currentUser.userLogin = getUserByID!.login
+
+        }
+    }
+    next()
+}
 export const bearerAndAdminAuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     if (!req.headers.authorization) {
         res.sendStatus(401)

@@ -2,7 +2,7 @@ import {Router} from "express";
 import {
     authorizationMiddleware,
     bearerAndAdminAuthMiddleware,
-    bearerAuthMiddleware
+    bearerAuthMiddleware, logUserByTokenMiddleware
 } from "../../validation/auth-validation";
 import {
     postBlogIdExistValidation,
@@ -48,7 +48,7 @@ postsRouter.get('/:postId/comments',
 postsRouter.get('/', postsController.getPosts.bind(postsController))
 
 
-postsRouter.get('/:id', postIdValidation, postsController.getPostById.bind(postsController))
+postsRouter.get('/:id',logUserByTokenMiddleware, postIdValidation, postsController.getPostById.bind(postsController))
 
 postsRouter.post('/',
     ...postValidators,

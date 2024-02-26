@@ -11,6 +11,7 @@ import {CommentsService} from "../../comments/service/comments-service";
 import {CommentQueryRepository} from "../../comments/query-repository/comment-query-repository";
 import {injectable} from "inversify";
 import {BlogModel, PostModel} from "../../db";
+import {jwtService, usersQueryRepository} from "../../common/composition-root/composition-root";
 
 @injectable()
 export class PostsController {
@@ -114,10 +115,12 @@ export class PostsController {
 
     async updatePostLikeStatus(req: Request, res: Response) {
         try {
+
+
             const response: boolean = await this.postsService.updatePostLikeStatus(new ObjectId(req.params.postId), req.body.likeStatus)
             let post = await this.postsQueryRepository.getPostById(new ObjectId(req.params.postId), req.headers.authorization)
             // res.send(post)
-            res.sendStatus(response ? HTTP_STATUSES.NO_CONTENT_204 : HTTP_STATUSES.NOT_FOUND_404)
+            res.sendStatus(reesponse ? HTTP_STATUSES.NO_CONTENT_204 : HTTP_STATUSES.NOT_FOUND_404)
 
         } catch (error) {
             res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)

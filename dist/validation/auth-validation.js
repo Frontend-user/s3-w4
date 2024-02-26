@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bearerAuthMiddleware = exports.bearerAndAdminAuthMiddleware = exports.authorizationMiddleware = void 0;
+exports.bearerAuthMiddleware = exports.bearerAndAdminAuthMiddleware = exports.logUserByTokenMiddleware = exports.authorizationMiddleware = void 0;
 const mongodb_1 = require("mongodb");
 const current_user_1 = require("../application/current-user");
 const composition_root_1 = require("../common/composition-root/composition-root");
@@ -25,6 +25,20 @@ const authorizationMiddleware = (req, res, next) => __awaiter(void 0, void 0, vo
     }
 });
 exports.authorizationMiddleware = authorizationMiddleware;
+const logUserByTokenMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.headers.authorization) {
+        let requestAuthCode = req.headers.authorization;
+        let token = req.headers.authorization.split(' ')[1];
+        const userId = yield composition_root_1.jwtService.checkToken(token);
+        const getUserByID = yield composition_root_1.usersQueryRepository.getUserById(new mongodb_1.ObjectId(userId));
+        if (getUserByID) {
+            current_user_1.currentUser.userId = userId;
+            current_user_1.currentUser.userLogin = getUserByID.login;
+        }
+    }
+    next();
+});
+exports.logUserByTokenMiddleware = logUserByTokenMiddleware;
 const bearerAndAdminAuthMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.headers.authorization) {
         res.sendStatus(401);
