@@ -24,8 +24,21 @@ export class PostsQueryRepository {
         let posts: PostEntityType[] = await PostModel.find({}).sort(sortQuery).skip(skip).limit(limit).lean()
         const allPosts = await PostModel.find({}).sort(sortQuery).lean()
         let pagesCount = Math.ceil(allPosts.length / newPageSize)
-        const fixArrayIds = posts.map((item => changeIdFormat(item, true)))
+        // const fixArrayIds = posts.map((item => changeIdFormat(item, true)))
 
+        let fixArrayIds: any[] = []
+        for (let i = 0; i < posts.length; i++) {
+            let post = await this.getPostById(posts[i]._id)
+            fixArrayIds.push(post)
+        }
+
+        fixArrayIds = posts.map((item => changeIdFormat(item, true)))
+        fixArrayIds.forEach((post:any)=>{
+            let a = post.extendedLikesInfo.newestLikes.find((_:any) => _.userId === currentUser.userId)
+            if(a){
+                post.extendedLikesInfo.myStatus = LIKE_STATUSES.LIKE
+            }
+        })
         return {
             "pagesCount": pagesCount,
             "page": newPageNumber,

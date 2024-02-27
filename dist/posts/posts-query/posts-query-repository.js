@@ -38,7 +38,19 @@ let PostsQueryRepository = class PostsQueryRepository {
             let posts = yield db_1.PostModel.find({}).sort(sortQuery).skip(skip).limit(limit).lean();
             const allPosts = yield db_1.PostModel.find({}).sort(sortQuery).lean();
             let pagesCount = Math.ceil(allPosts.length / newPageSize);
-            const fixArrayIds = posts.map((item => (0, change_id_format_1.changeIdFormat)(item, true)));
+            // const fixArrayIds = posts.map((item => changeIdFormat(item, true)))
+            let fixArrayIds = [];
+            for (let i = 0; i < posts.length; i++) {
+                let post = yield this.getPostById(posts[i]._id);
+                fixArrayIds.push(post);
+            }
+            fixArrayIds = posts.map((item => (0, change_id_format_1.changeIdFormat)(item, true)));
+            fixArrayIds.forEach((post) => {
+                let a = post.extendedLikesInfo.newestLikes.find((_) => _.userId === current_user_1.currentUser.userId);
+                if (a) {
+                    post.extendedLikesInfo.myStatus = http_statuses_1.LIKE_STATUSES.LIKE;
+                }
+            });
             return {
                 "pagesCount": pagesCount,
                 "page": newPageNumber,
