@@ -68,7 +68,7 @@ let PostsController = class PostsController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let { sortBy, sortDirection, pageNumber, pageSize } = (0, query_data_1.getQueryData)(req);
-                const posts = yield this.postsQueryRepository.getPosts(sortBy, sortDirection, pageNumber, pageSize);
+                const posts = yield this.postsQueryRepository.getPosts(sortBy, sortDirection, pageNumber, pageSize, req.headers.authorization);
                 res.status(http_statuses_1.HTTP_STATUSES.OK_200).send(posts);
             }
             catch (error) {

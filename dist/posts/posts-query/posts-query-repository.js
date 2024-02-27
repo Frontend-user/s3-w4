@@ -26,12 +26,11 @@ const change_id_format_1 = require("../../common/custom-methods/change-id-format
 const inversify_1 = require("inversify");
 const http_statuses_1 = require("../../common/constants/http-statuses");
 const jwt_service_1 = require("../../application/jwt-service");
-const current_user_1 = require("../../application/current-user");
 let PostsQueryRepository = class PostsQueryRepository {
     constructor(jwtService) {
         this.jwtService = jwtService;
     }
-    getPosts(sortBy, sortDirection, pageNumber, pageSize) {
+    getPosts(sortBy, sortDirection, pageNumber, pageSize, auth) {
         return __awaiter(this, void 0, void 0, function* () {
             const sortQuery = blogs_sorting_1.blogsSorting.getSorting(sortBy, sortDirection);
             const { skip, limit, newPageNumber, newPageSize } = blogs_paginate_1.blogsPaginate.getPagination(pageNumber, pageSize);
@@ -41,16 +40,16 @@ let PostsQueryRepository = class PostsQueryRepository {
             // const fixArrayIds = posts.map((item => changeIdFormat(item, true)))
             let fixArrayIds = [];
             for (let i = 0; i < posts.length; i++) {
-                let post = yield this.getPostById(posts[i]._id);
+                let post = yield this.getPostById(posts[i]._id, auth);
                 fixArrayIds.push(post);
             }
-            fixArrayIds = posts.map((item => (0, change_id_format_1.changeIdFormat)(item, true)));
-            fixArrayIds.forEach((post) => {
-                let a = post.extendedLikesInfo.newestLikes.find((_) => _.userId === current_user_1.currentUser.userId);
-                if (a) {
-                    post.extendedLikesInfo.myStatus = http_statuses_1.LIKE_STATUSES.LIKE;
-                }
-            });
+            // fixArrayIds = posts.map((item => changeIdFormat(item, true)))
+            // fixArrayIds.forEach((post:any)=>{
+            //     let a = post.extendedLikesInfo.newestLikes.find((_:any) => _.userId === currentUser.userId)
+            //     if(a){
+            //         post.extendedLikesInfo.myStatus = LIKE_STATUSES.LIKE
+            //     }
+            // })
             return {
                 "pagesCount": pagesCount,
                 "page": newPageNumber,
@@ -73,13 +72,13 @@ let PostsQueryRepository = class PostsQueryRepository {
                 let post = yield this.getPostById(posts[i]._id);
                 fixArrayIds.push(post);
             }
-            fixArrayIds = posts.map((item => (0, change_id_format_1.changeIdFormat)(item, true)));
-            fixArrayIds.forEach((post) => {
-                let a = post.extendedLikesInfo.newestLikes.find((_) => _.userId === current_user_1.currentUser.userId);
-                if (a) {
-                    post.extendedLikesInfo.myStatus = http_statuses_1.LIKE_STATUSES.LIKE;
-                }
-            });
+            // fixArrayIds = posts.map((item => changeIdFormat(item, true)))
+            // fixArrayIds.forEach((post:any)=>{
+            //     let a = post.extendedLikesInfo.newestLikes.find((_:any) => _.userId === currentUser.userId)
+            //     if(a){
+            //         post.extendedLikesInfo.myStatus = LIKE_STATUSES.LIKE
+            //     }
+            // })
             return {
                 "pagesCount": pagesCount,
                 "page": newPageNumber,

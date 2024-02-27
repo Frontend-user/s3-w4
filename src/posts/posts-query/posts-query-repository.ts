@@ -63,13 +63,13 @@ debugger
             fixArrayIds.push(post)
         }
 
-        fixArrayIds = posts.map((item => changeIdFormat(item, true)))
-        fixArrayIds.forEach((post:any)=>{
-            let a = post.extendedLikesInfo.newestLikes.find((_:any) => _.userId === currentUser.userId)
-            if(a){
-                post.extendedLikesInfo.myStatus = LIKE_STATUSES.LIKE
-            }
-        })
+        // fixArrayIds = posts.map((item => changeIdFormat(item, true)))
+        // fixArrayIds.forEach((post:any)=>{
+        //     let a = post.extendedLikesInfo.newestLikes.find((_:any) => _.userId === currentUser.userId)
+        //     if(a){
+        //         post.extendedLikesInfo.myStatus = LIKE_STATUSES.LIKE
+        //     }
+        // })
         return {
             "pagesCount": pagesCount,
             "page": newPageNumber,
