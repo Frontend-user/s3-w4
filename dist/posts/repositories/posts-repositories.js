@@ -35,7 +35,6 @@ let PostsRepositories = class PostsRepositories {
     }
     updatePostLikeStatus(id, likeStatus) {
         return __awaiter(this, void 0, void 0, function* () {
-            debugger;
             const userIdLikeStatus = {
                 userId: current_user_1.currentUser.userId,
                 likeStatus: likeStatus,

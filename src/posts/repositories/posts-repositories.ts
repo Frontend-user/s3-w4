@@ -21,7 +21,7 @@ export class PostsRepositories {
     }
 
     async updatePostLikeStatus(id: ObjectId, likeStatus: string): Promise<boolean> {
-      debugger
+
         const userIdLikeStatus: usersIdsPostsLikeStatuses = {
             userId: currentUser.userId,
             likeStatus: likeStatus,

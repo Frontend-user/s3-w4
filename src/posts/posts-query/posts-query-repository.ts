@@ -9,6 +9,7 @@ import {injectable} from "inversify";
 import {LIKE_STATUSES} from "../../common/constants/http-statuses";
 import {JwtService} from "../../application/jwt-service";
 import {newestLikes} from "../../schemas/schemas";
+import {currentUser} from "../../application/current-user";
 
 @injectable()
 export class PostsQueryRepository {
@@ -23,7 +24,7 @@ export class PostsQueryRepository {
         let posts: PostEntityType[] = await PostModel.find({}).sort(sortQuery).skip(skip).limit(limit).lean()
         const allPosts = await PostModel.find({}).sort(sortQuery).lean()
         let pagesCount = Math.ceil(allPosts.length / newPageSize)
-        const fixArrayIds = posts.map((item => changeIdFormat(item)))
+        const fixArrayIds = posts.map((item => changeIdFormat(item, true)))
 
         return {
             "pagesCount": pagesCount,
@@ -37,7 +38,7 @@ export class PostsQueryRepository {
     async getPostsByBlogId(blogId?: string, sortBy?: string, sortDirection?: string, pageNumber?: number, pageSize?: number): Promise<Pagination<PostViewType[]>> {
         const sortQuery = blogsSorting.getSorting(sortBy, sortDirection)
         const {skip, limit, newPageNumber, newPageSize} = blogsPaginate.getPagination(pageNumber, pageSize)
-
+debugger
         let posts: PostEntityType[] = await PostModel.find({"blogId": blogId}).sort(sortQuery).skip(skip).limit(limit).lean()
         const allPosts = await PostModel.find({"blogId": blogId}).lean()
         let pagesCount = Math.ceil(allPosts.length / newPageSize)
@@ -50,7 +51,12 @@ export class PostsQueryRepository {
         }
 
         fixArrayIds = posts.map((item => changeIdFormat(item, true)))
-
+        fixArrayIds.forEach((post:any)=>{
+            let a = post.extendedLikesInfo.newestLikes.find((_:any) => _.userId === currentUser.userId)
+            if(a){
+                post.extendedLikesInfo.myStatus = LIKE_STATUSES.LIKE
+            }
+        })
         return {
             "pagesCount": pagesCount,
             "page": newPageNumber,

@@ -26,6 +26,7 @@ const change_id_format_1 = require("../../common/custom-methods/change-id-format
 const inversify_1 = require("inversify");
 const http_statuses_1 = require("../../common/constants/http-statuses");
 const jwt_service_1 = require("../../application/jwt-service");
+const current_user_1 = require("../../application/current-user");
 let PostsQueryRepository = class PostsQueryRepository {
     constructor(jwtService) {
         this.jwtService = jwtService;
@@ -37,7 +38,7 @@ let PostsQueryRepository = class PostsQueryRepository {
             let posts = yield db_1.PostModel.find({}).sort(sortQuery).skip(skip).limit(limit).lean();
             const allPosts = yield db_1.PostModel.find({}).sort(sortQuery).lean();
             let pagesCount = Math.ceil(allPosts.length / newPageSize);
-            const fixArrayIds = posts.map((item => (0, change_id_format_1.changeIdFormat)(item)));
+            const fixArrayIds = posts.map((item => (0, change_id_format_1.changeIdFormat)(item, true)));
             return {
                 "pagesCount": pagesCount,
                 "page": newPageNumber,
@@ -51,6 +52,7 @@ let PostsQueryRepository = class PostsQueryRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const sortQuery = blogs_sorting_1.blogsSorting.getSorting(sortBy, sortDirection);
             const { skip, limit, newPageNumber, newPageSize } = blogs_paginate_1.blogsPaginate.getPagination(pageNumber, pageSize);
+            debugger;
             let posts = yield db_1.PostModel.find({ "blogId": blogId }).sort(sortQuery).skip(skip).limit(limit).lean();
             const allPosts = yield db_1.PostModel.find({ "blogId": blogId }).lean();
             let pagesCount = Math.ceil(allPosts.length / newPageSize);
@@ -60,6 +62,12 @@ let PostsQueryRepository = class PostsQueryRepository {
                 fixArrayIds.push(post);
             }
             fixArrayIds = posts.map((item => (0, change_id_format_1.changeIdFormat)(item, true)));
+            fixArrayIds.forEach((post) => {
+                let a = post.extendedLikesInfo.newestLikes.find((_) => _.userId === current_user_1.currentUser.userId);
+                if (a) {
+                    post.extendedLikesInfo.myStatus = http_statuses_1.LIKE_STATUSES.LIKE;
+                }
+            });
             return {
                 "pagesCount": pagesCount,
                 "page": newPageNumber,
