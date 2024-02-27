@@ -110,7 +110,7 @@ let BlogsControllerConstructor = class BlogsControllerConstructor {
         return __awaiter(this, void 0, void 0, function* () {
             let { sortBy, sortDirection, pageNumber, pageSize } = (0, query_data_1.getQueryData)(req);
             try {
-                const posts = yield this.postsQueryRepository.getPostsByBlogId(String(req.params.blogId), sortBy, sortDirection, pageNumber, pageSize);
+                const posts = yield this.postsQueryRepository.getPostsByBlogId(String(req.params.blogId), sortBy, sortDirection, pageNumber, pageSize, req.headers.authorization);
                 res.send(posts);
             }
             catch (error) {

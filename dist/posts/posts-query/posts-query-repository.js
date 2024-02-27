@@ -59,7 +59,7 @@ let PostsQueryRepository = class PostsQueryRepository {
             };
         });
     }
-    getPostsByBlogId(blogId, sortBy, sortDirection, pageNumber, pageSize) {
+    getPostsByBlogId(blogId, sortBy, sortDirection, pageNumber, pageSize, auth) {
         return __awaiter(this, void 0, void 0, function* () {
             const sortQuery = blogs_sorting_1.blogsSorting.getSorting(sortBy, sortDirection);
             const { skip, limit, newPageNumber, newPageSize } = blogs_paginate_1.blogsPaginate.getPagination(pageNumber, pageSize);
@@ -69,7 +69,7 @@ let PostsQueryRepository = class PostsQueryRepository {
             let pagesCount = Math.ceil(allPosts.length / newPageSize);
             let fixArrayIds = [];
             for (let i = 0; i < posts.length; i++) {
-                let post = yield this.getPostById(posts[i]._id);
+                let post = yield this.getPostById(posts[i]._id, auth);
                 fixArrayIds.push(post);
             }
             // fixArrayIds = posts.map((item => changeIdFormat(item, true)))

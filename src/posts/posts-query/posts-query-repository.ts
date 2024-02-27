@@ -48,7 +48,7 @@ export class PostsQueryRepository {
         }
     }
 
-    async getPostsByBlogId(blogId?: string, sortBy?: string, sortDirection?: string, pageNumber?: number, pageSize?: number): Promise<Pagination<PostViewType[]>> {
+    async getPostsByBlogId(blogId?: string, sortBy?: string, sortDirection?: string, pageNumber?: number, pageSize?: number, auth?:string): Promise<Pagination<PostViewType[]>> {
         const sortQuery = blogsSorting.getSorting(sortBy, sortDirection)
         const {skip, limit, newPageNumber, newPageSize} = blogsPaginate.getPagination(pageNumber, pageSize)
 debugger
@@ -59,7 +59,7 @@ debugger
 
         let fixArrayIds: any[] = []
         for (let i = 0; i < posts.length; i++) {
-            let post = await this.getPostById(posts[i]._id)
+            let post = await this.getPostById(posts[i]._id, auth)
             fixArrayIds.push(post)
         }
 

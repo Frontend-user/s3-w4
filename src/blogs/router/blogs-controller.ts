@@ -95,7 +95,7 @@ export class BlogsControllerConstructor {
         let {sortBy, sortDirection, pageNumber, pageSize} = getQueryData(req)
 
         try {
-            const posts = await this.postsQueryRepository.getPostsByBlogId(String(req.params.blogId), sortBy, sortDirection, pageNumber, pageSize)
+            const posts = await this.postsQueryRepository.getPostsByBlogId(String(req.params.blogId), sortBy, sortDirection, pageNumber, pageSize, req.headers.authorization)
             res.send(posts)
         } catch (error) {
             console.error('Ошибка при получении данных из коллекции:', error);
