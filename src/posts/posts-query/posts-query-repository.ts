@@ -16,7 +16,7 @@ export class PostsQueryRepository {
     constructor(protected jwtService: JwtService) {
     }
 
-    async getPosts(sortBy?: string, sortDirection?: string, pageNumber?: number, pageSize?: number): Promise<Pagination<PostViewType[]>> {
+    async getPosts(sortBy?: string, sortDirection?: string, pageNumber?: number, pageSize?: number,auth?: string,): Promise<Pagination<PostViewType[]>> {
         const sortQuery = blogsSorting.getSorting(sortBy, sortDirection)
         const {skip, limit, newPageNumber, newPageSize} = blogsPaginate.getPagination(pageNumber, pageSize)
 
@@ -28,17 +28,17 @@ export class PostsQueryRepository {
 
         let fixArrayIds: any[] = []
         for (let i = 0; i < posts.length; i++) {
-            let post = await this.getPostById(posts[i]._id)
+            let post = await this.getPostById(posts[i]._id,auth)
             fixArrayIds.push(post)
         }
 
-        fixArrayIds = posts.map((item => changeIdFormat(item, true)))
-        fixArrayIds.forEach((post:any)=>{
-            let a = post.extendedLikesInfo.newestLikes.find((_:any) => _.userId === currentUser.userId)
-            if(a){
-                post.extendedLikesInfo.myStatus = LIKE_STATUSES.LIKE
-            }
-        })
+        // fixArrayIds = posts.map((item => changeIdFormat(item, true)))
+        // fixArrayIds.forEach((post:any)=>{
+        //     let a = post.extendedLikesInfo.newestLikes.find((_:any) => _.userId === currentUser.userId)
+        //     if(a){
+        //         post.extendedLikesInfo.myStatus = LIKE_STATUSES.LIKE
+        //     }
+        // })
         return {
             "pagesCount": pagesCount,
             "page": newPageNumber,

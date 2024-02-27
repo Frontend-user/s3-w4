@@ -50,7 +50,7 @@ export class PostsController {
     async getPosts(req: Request, res: Response) {
         try {
             let {sortBy, sortDirection, pageNumber, pageSize} = getQueryData(req)
-            const posts = await this.postsQueryRepository.getPosts(sortBy, sortDirection, pageNumber, pageSize)
+            const posts = await this.postsQueryRepository.getPosts(sortBy, sortDirection, pageNumber, pageSize, req.headers.authorization)
             res.status(HTTP_STATUSES.OK_200).send(posts)
         } catch (error) {
             console.error('Ошибка при получении данных из коллекции:', error);
